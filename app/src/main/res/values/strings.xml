@@ -10,4 +10,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_out">Sign Out</string>
+    <string name="topic">Topic</string>
+    <string name="vote">Vote</string>
+    <string name="end_criteria">End Criteria</string>
+    <string name="timed">Timed</string>
+    <string name="turn_mode">Turn Mode</string>
+    <string name="turn_based">Turn Based</string>
+    <string name="real_time">Real Time</string>
+    <string name="category">Category</string>
+    <string name="next">Next</string>
+    <string name="create_debate">Create Debate</string>
 </resources>
