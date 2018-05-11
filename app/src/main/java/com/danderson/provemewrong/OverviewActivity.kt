@@ -2,18 +2,13 @@ package com.danderson.provemewrong
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
-import com.danderson.provemewrong.R.id.navigation
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_overview.*
@@ -88,17 +83,25 @@ class OverviewActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 navigation.menu.getItem(position).isChecked = true
+                supportActionBar?.title = when(position){
+                    0 -> "Profile"
+                    1 -> "My Debates"
+                    2 -> "Browse"
+                    else -> "My Debates"
+                }
             }
         })
     }
 
     inner class NavigationPagerAdapter(fm: FragmentManager, private var tabCount: Int): FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment? {
-            when (position) {
-                0 -> return ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!)
-                1 -> return OverviewFragment()
-                2 -> return SearchFragment()
-                else -> return null
+            return when (position) {
+                0 -> {
+                    ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!)
+                }
+                1 -> OverviewFragment()
+                2 -> SearchFragment()
+                else -> null
             }
         }
 

@@ -1,14 +1,12 @@
 package com.danderson.provemewrong
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
 
@@ -28,6 +26,7 @@ class ProfileFragment : Fragment() {
         const val ARG_EMAIL = "profile_email"
         const val ARG_DISPLAY = "profile_display"
 
+        @JvmStatic
         fun newInstance(userEmail: String, userName: String): ProfileFragment{
             val args: Bundle = Bundle()
             args.putString(ARG_EMAIL, userEmail)

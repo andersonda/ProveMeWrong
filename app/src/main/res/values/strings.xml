@@ -20,4 +20,5 @@
     <string name="category">Category</string>
     <string name="next">Next</string>
     <string name="create_debate">Create Debate</string>
+    <string name="back">Back</string>
 </resources>

@@ -12,7 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.danderson.provemewrong.debatemodel.Debate
+import com.danderson.provemewrong.debatemodel.DebateBase
 import kotlinx.android.synthetic.main.fragment_overview.*
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.RecursiveAction
@@ -45,8 +48,6 @@ class OverviewFragment : Fragment() {
     }
 
     inner class DebatesAdapter: RecyclerView.Adapter<DebatesAdapter.ViewHolder>(){
-        private val topics = arrayOf("Topic 1", "Topic 2", "Topic 3", "Topic 4", "Topic 5", "Topic 6", "Topic 7", "Topic 8", "Topic 9", "Topic 10", "Topic 11", "Topic 12", "Topic 13", "Topic 14", "Topic 15")
-        private val participants = arrayOf("Donald Trump", "Bernie Sanders", "Hillary Clinton", "Alex", "Barack Obama")
 
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var topic: TextView
@@ -66,14 +67,15 @@ class OverviewFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.topic.text = topics[position]
-            holder.participants.text = participants[position % 5]
-            val dateformat:SimpleDateFormat = SimpleDateFormat("EEE MMM dd, HH:mm", Locale.US)
-            holder.time.text = dateformat.format(Date())
+            val debate = DebateBase.getDebate(position)
+            holder.topic.text = debate.topic
+            holder.participants.text = "Participants" //placeholder
+            val format = SimpleDateFormat("EEE, MMM d", Locale.US)
+            holder.time.text = format.format(Date())
         }
 
         override fun getItemCount(): Int {
-            return topics.size
+            return DebateBase.getCount()
         }
     }
 }
