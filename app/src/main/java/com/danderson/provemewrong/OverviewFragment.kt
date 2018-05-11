@@ -11,9 +11,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.danderson.provemewrong.debatemodel.Debate
 import com.danderson.provemewrong.debatemodel.DebateBase
+import com.danderson.provemewrong.debatemodel.TimedDebate
 import kotlinx.android.synthetic.main.fragment_overview.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -51,13 +53,17 @@ class OverviewFragment : Fragment() {
 
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var topic: TextView
-            var participants: TextView
+            var category: TextView
+            var participants: LinearLayout
             var time: TextView
+            var end: TextView
 
             init {
-                topic = itemView.findViewById(R.id.topic)
-                participants = itemView.findViewById(R.id.participants)
-                time = itemView.findViewById(R.id.time)
+                topic = itemView.findViewById(R.id.card_topic)
+                category = itemView.findViewById(R.id.card_category)
+                participants = itemView.findViewById(R.id.card_participants)
+                time = itemView.findViewById(R.id.card_time)
+                end = itemView.findViewById(R.id.card_expiration)
             }
         }
 
@@ -69,9 +75,13 @@ class OverviewFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val debate = DebateBase.getDebate(position)
             holder.topic.text = debate.topic
-            holder.participants.text = "Participants" //placeholder
+            holder.category.text = debate.category
             val format = SimpleDateFormat("EEE, MMM d", Locale.US)
-            holder.time.text = format.format(Date())
+            holder.time.text = String.format(getString(R.string.last_activity), format.format(Date()))
+            holder.end.text = if(debate is TimedDebate)
+                                String.format(getString(R.string.end_date), format.format(Date()))
+                              else
+                                String.format(getString(R.string.end_date), "none")
         }
 
         override fun getItemCount(): Int {

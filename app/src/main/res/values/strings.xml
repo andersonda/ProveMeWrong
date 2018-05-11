@@ -21,4 +21,7 @@
     <string name="next">Next</string>
     <string name="create_debate">Create Debate</string>
     <string name="back">Back</string>
+    <string name="participants">Participants</string>
+    <string name="last_activity">Last Activity: %1$s</string>
+    <string name="end_date">End Date: %1$s</string>
 </resources>
