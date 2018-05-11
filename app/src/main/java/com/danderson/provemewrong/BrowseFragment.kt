@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class SearchFragment : Fragment() {
+class BrowseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -100,7 +100,7 @@ class OverviewActivity : AppCompatActivity() {
                     ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!)
                 }
                 1 -> OverviewFragment()
-                2 -> SearchFragment()
+                2 -> BrowseFragment()
                 else -> null
             }
         }

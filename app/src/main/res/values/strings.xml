@@ -24,4 +24,6 @@
     <string name="participants">Participants</string>
     <string name="last_activity">Last Activity: %1$s</string>
     <string name="end_date">End Date: %1$s</string>
+    <string name="browse">Browse</string>
+    <string name="search_debates">Search Debates</string>
 </resources>
