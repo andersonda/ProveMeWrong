@@ -46,7 +46,7 @@ class CreateDebateFragment : Fragment(){
         endTime = v.findViewById(R.id.text_view_end)
         endTime?.text = getString(R.string.end_date, "none")
 
-        val adapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_item, DebateBase.categories)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_item, DebateBase.getDebateCategories())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categories.adapter = adapter
 

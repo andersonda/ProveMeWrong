@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.danderson.provemewrong.debatemodel.Debate
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.danderson.provemewrong.debatemodel.TimedDebate
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_overview.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -46,6 +47,7 @@ class OverviewFragment : Fragment() {
         fab.setOnClickListener{
             startActivity(Intent(activity, CreateDebateActivity::class.java))
         }
+
         return v
     }
 
