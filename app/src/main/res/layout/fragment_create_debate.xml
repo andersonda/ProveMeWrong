@@ -9,6 +9,7 @@
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/create_debate_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -63,7 +64,6 @@
             android:layout_margin="16dp">
 
             <TextView
-                android:id="@+id/text_view_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_criteria"
@@ -91,6 +91,28 @@
                     android:text="@string/timed"/>
 
             </RadioGroup>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp">
+
+            <Button
+                android:id="@+id/set_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_date"
+                android:enabled="false"/>
+
+            <TextView
+                android:id="@+id/text_view_end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="@string/end_date"/>
+
         </TableRow>
 
         <TableRow
