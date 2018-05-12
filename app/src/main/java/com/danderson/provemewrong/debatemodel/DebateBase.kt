@@ -42,6 +42,8 @@ object DebateBase {
         }
         reference.addValueEventListener(categoryChangeListener)
 
+        categories.add("Other") // hack to ensure "Other" category is always at the end of the list
+
         return categories
     }
 }
