@@ -37,6 +37,7 @@ app/google-services\.json
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/.idea/caches
 .DS_Store
 /build
 /captures
