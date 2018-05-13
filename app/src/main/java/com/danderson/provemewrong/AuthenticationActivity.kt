@@ -63,6 +63,7 @@ class AuthenticationActivity : AppCompatActivity() {
     private fun getProviderList(): List<AuthUI.IdpConfig>{
         val providers = mutableListOf<AuthUI.IdpConfig>()
         providers.add(AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build())
+        providers.add(AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build())
         return providers
     }
 }
