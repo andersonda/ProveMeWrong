@@ -13,16 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.danderson.provemewrong.debatemodel.Debate
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.danderson.provemewrong.debatemodel.TimedDebate
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_overview.*
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.RecursiveAction
 
 /**
  * A simple [Fragment] subclass.
@@ -73,7 +68,7 @@ class OverviewFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val v = LayoutInflater.from(parent.context).inflate(R.layout.debate_card, parent, false)
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.card_debate, parent, false)
             return ViewHolder(v)
         }
 
