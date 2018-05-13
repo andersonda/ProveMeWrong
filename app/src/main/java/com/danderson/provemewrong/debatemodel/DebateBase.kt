@@ -1,13 +1,18 @@
 package com.danderson.provemewrong.debatemodel
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
