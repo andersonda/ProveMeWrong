@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.danderson.provemewrong.debatemodel.Debate
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.danderson.provemewrong.debatemodel.TimedDebate
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_overview.*
 import java.text.DateFormat
@@ -53,6 +54,8 @@ class OverviewFragment : Fragment() {
 
     inner class DebatesAdapter: RecyclerView.Adapter<DebatesAdapter.ViewHolder>(){
 
+        var debates = DebateBase.getDebates(FirebaseAuth.getInstance().currentUser!!, this as RecyclerView.Adapter<*>)
+
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var topic: TextView
             var category: TextView
@@ -75,7 +78,7 @@ class OverviewFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val debate = DebateBase.getDebate(position)
+            val debate = debates[position]
             holder.topic.text = debate.topic
             holder.category.text = debate.category
             val format = SimpleDateFormat("EEE, MMM d", Locale.US)
@@ -87,7 +90,7 @@ class OverviewFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return DebateBase.getCount()
+            return debates.size
         }
     }
 }

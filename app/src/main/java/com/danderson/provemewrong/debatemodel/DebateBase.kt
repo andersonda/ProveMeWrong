@@ -1,28 +1,91 @@
 package com.danderson.provemewrong.debatemodel
 
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Collection of debates. This is a placeholder for testing. In the future, it will be linked to Firebase.
  */
 object DebateBase {
+    val formatter: SimpleDateFormat = SimpleDateFormat("EEE MMM dd, HH:mm", Locale.US)
+
     private var debates: ArrayList<Debate> = ArrayList()
     private val database = FirebaseDatabase.getInstance()
 
-    fun add(debate: Debate){
+    fun add(debate: Debate, user:FirebaseUser){
         debates.add(debate)
+        val debateReference = database.getReference("/debates/").push()
+        debateReference.setValue(debate)
+        val userReference = database.getReference("/user-debates/${user.uid}").push().setValue(debateReference.key)
     }
 
-    fun getDebate(position: Int): Debate{
-        return debates[position]
+    fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>): List<Debate>{
+        val debates = mutableListOf<Debate>()
+        val userDebateReference = database.getReference("/user-debates/${user.uid}")
+        val userDebateChangeListener = object: ValueEventListener{
+
+            override fun onCancelled(dbError: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(child in dataSnapshot.children){
+                    val key = child.getValue(String::class.java)!!
+                    val debateReference = database.getReference("/debates/$key")
+                    debateReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onCancelled(dbError: DatabaseError) {
+
+                        }
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            var debate: Debate? = null
+                            val topic = dataSnapshot.child("topic").getValue(String::class.java)!!
+                            val category = dataSnapshot.child("category").getValue(String::class.java)!!
+                            val turnBased = dataSnapshot.child("turnBased").getValue(Boolean::class.java)!!
+
+                            debate = if(dataSnapshot.child("date").exists()){
+                                val date = dataSnapshot.child("date").getValue(String::class.java)!!
+                                TimedDebate(topic, category, turnBased, date)
+                            } else{
+                                Debate(topic, category, turnBased)
+                            }
+                            debates.add(debate)
+                            adapter.notifyDataSetChanged()
+                        }
+                    })
+                }
+            }
+
+        }
+        userDebateReference.addListenerForSingleValueEvent(userDebateChangeListener)
+        return debates
     }
 
-    fun getCount(): Int{
-        return debates.size
-    }
+//    private fun getDebateForKey(key: String): Debate{
+//        var debate: Debate? = null
+//        val debateReference = database.getReference("/debates/$key")
+//        Log.i("CHILD_KEY", debateReference.toString())
+//        val debateChangeListener = object: ValueEventListener{
+//
+//            override fun onCancelled(dbError: DatabaseError) {
+//
+//            }
+//
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                debate = dataSnapshot.getValue(Debate::class.java)
+//            }
+//        }
+//        debateReference.addListenerForSingleValueEvent(debateChangeListener)
+//        return debate!!
+//    }
 
     fun getDebateCategories(): List<String>{
         val categories = mutableListOf<String>()

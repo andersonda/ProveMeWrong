@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.danderson.provemewrong.debatemodel.Debate
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.danderson.provemewrong.debatemodel.TimedDebate
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 class CreateDebateActivity : AppCompatActivity(), CreateDebateFragment.DebateCreation{
@@ -17,11 +18,11 @@ class CreateDebateActivity : AppCompatActivity(), CreateDebateFragment.DebateCre
                 CreateDebateFragment()).commit()
     }
 
-    override fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: Date?) {
+    override fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?) {
         val debate = if(isVote) Debate(topic, category, isTurnBased)
                      else TimedDebate(topic, category, isTurnBased, date!!)
 
-        DebateBase.add(debate)
+        DebateBase.add(debate, FirebaseAuth.getInstance().currentUser!!)
         finish()
     }
 }

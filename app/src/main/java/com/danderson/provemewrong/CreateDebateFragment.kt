@@ -20,10 +20,8 @@ class CreateDebateFragment : Fragment(){
     private var date = Date()
     var endTime: TextView? = null
 
-    private val format: SimpleDateFormat = SimpleDateFormat("EEE MMM dd, HH:mm", Locale.US)
-
     interface DebateCreation{
-        fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: Date?)
+        fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +53,7 @@ class CreateDebateFragment : Fragment(){
             when(checked){
                 R.id.radio_timed -> {
                     endButton.isEnabled = true
-                    endTime?.text = getString(R.string.end_date, format.format(date))
+                    endTime?.text = getString(R.string.end_date, DebateBase.formatter.format(date))
                 }
                 else -> {
                     endButton.isEnabled = false
@@ -81,7 +79,7 @@ class CreateDebateFragment : Fragment(){
             }
 
             activityCallback?.onDebateInformationSubmitted(topic.text.toString(),
-                    categories.selectedItem.toString(), isVote, isTurnBased, date)
+                    categories.selectedItem.toString(), isVote, isTurnBased, DebateBase.formatter.format(date))
             startActivity(Intent(activity, OverviewActivity::class.java))
             activity?.finish()
         }
@@ -94,7 +92,7 @@ class CreateDebateFragment : Fragment(){
             DIALOG -> {
                 if(resultCode == Activity.RESULT_OK){
                     date = data.getSerializableExtra(EXTRA_DATE) as Date
-                    endTime?.text = getString(R.string.end_date, format.format(date))
+                    endTime?.text = getString(R.string.end_date, DebateBase.formatter.format(date))
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
