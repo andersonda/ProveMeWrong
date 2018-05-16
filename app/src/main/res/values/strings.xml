@@ -25,4 +25,9 @@
     <string name="browse">Browse</string>
     <string name="search_debates">Search Debates</string>
     <string name="set_date">Set Date</string>
+    <string name="stats">Stats</string>
+    <string name="number_of_debates">Number of Debates</string>
+    <string name="longest_debate">Longest Debate</string>
+    <string name="num_debate_lines">Number of Debate Lines Sent</string>
+    <string name="number_of_good_points_received">Number of Good Points Received</string>
 </resources>

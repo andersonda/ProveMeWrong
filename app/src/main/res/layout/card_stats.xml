@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    xmlns:card="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+
+                                    card:cardCornerRadius="8dp"
+                                    card:cardElevation="5dp"
+                                    card:contentPadding="4dp"
+                                    android:layout_margin="8dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="24sp"
+            android:layout_margin="8dp"
+            card:layout_constraintLeft_toLeftOf="parent"
+            card:layout_constraintTop_toTopOf="parent"
+            card:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/stats"/>
+
+        <View style="@style/Divider"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/num_debates_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintLeft_toLeftOf="parent"
+                android:text="@string/number_of_debates"/>
+
+            <TextView
+                android:id="@+id/num_debates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintRight_toRightOf="parent"
+                tools:text="10"/>
+
+            <TextView
+                android:id="@+id/longest_debate_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintLeft_toLeftOf="parent"
+                card:layout_constraintTop_toBottomOf="@+id/num_debates_label"
+                android:text="@string/longest_debate"/>
+
+            <TextView
+                android:id="@+id/longest_debate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintRight_toRightOf="parent"
+                card:layout_constraintTop_toBottomOf="@id/num_debates"
+                tools:text="10h 30m"/>
+
+            <TextView
+                android:id="@+id/num_debate_lines_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintLeft_toLeftOf="parent"
+                card:layout_constraintTop_toBottomOf="@+id/longest_debate_label"
+                android:text="@string/num_debate_lines"/>
+
+            <TextView
+                android:id="@+id/num_debate_lines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintRight_toRightOf="parent"
+                card:layout_constraintTop_toBottomOf="@id/longest_debate"
+                tools:text="500"/>
+
+            <TextView
+                android:id="@+id/good_points_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintLeft_toLeftOf="parent"
+                card:layout_constraintTop_toBottomOf="@+id/num_debate_lines_label"
+                android:text="@string/number_of_good_points_received"/>
+
+            <TextView
+                android:id="@+id/good_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                card:layout_constraintRight_toRightOf="parent"
+                card:layout_constraintTop_toBottomOf="@id/num_debate_lines"
+                tools:text="5"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
