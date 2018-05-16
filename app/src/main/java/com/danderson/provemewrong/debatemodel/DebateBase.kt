@@ -32,7 +32,7 @@ object DebateBase {
         val userReference = database.getReference("/user-debates/${user.uid}").push().setValue(debateReference.key)
     }
 
-    fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>): List<Debate>{
+    fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): List<Debate>{
         val debates = mutableListOf<Debate>()
         val userDebateReference = database.getReference("/user-debates/${user.uid}")
         val userDebateChangeListener = object: ValueEventListener{
@@ -63,7 +63,7 @@ object DebateBase {
                                 Debate(topic, category, turnBased)
                             }
                             debates.add(debate)
-                            adapter.notifyDataSetChanged()
+                            adapter?.notifyDataSetChanged()
                         }
                     })
                 }
@@ -73,24 +73,6 @@ object DebateBase {
         userDebateReference.addListenerForSingleValueEvent(userDebateChangeListener)
         return debates
     }
-
-//    private fun getDebateForKey(key: String): Debate{
-//        var debate: Debate? = null
-//        val debateReference = database.getReference("/debates/$key")
-//        Log.i("CHILD_KEY", debateReference.toString())
-//        val debateChangeListener = object: ValueEventListener{
-//
-//            override fun onCancelled(dbError: DatabaseError) {
-//
-//            }
-//
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                debate = dataSnapshot.getValue(Debate::class.java)
-//            }
-//        }
-//        debateReference.addListenerForSingleValueEvent(debateChangeListener)
-//        return debate!!
-//    }
 
     fun getDebateCategories(): List<String>{
         val categories = mutableListOf<String>()
