@@ -66,42 +66,15 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/card_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="8dp">
 
-            <!-- These ImageView widgets are placeholders, will be replaced with profile pictures
-                    of participating users-->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile"/>
 
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
         <View style="@style/Divider"/>
         <TextView

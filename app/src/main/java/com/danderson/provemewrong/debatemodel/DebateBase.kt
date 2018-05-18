@@ -3,10 +3,12 @@ package com.danderson.provemewrong.debatemodel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.renderscript.Sampler
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -62,6 +64,10 @@ object DebateBase {
                             } else{
                                 Debate(topic, category, turnBased)
                             }
+                            debate.id = key
+                            debate.moderator = if(dataSnapshot.child("moderator").exists())
+                                                    dataSnapshot.child("moderator").getValue(String::class.java)
+                                                else null
                             debates.add(debate)
                             adapter?.notifyDataSetChanged()
                         }
@@ -72,6 +78,34 @@ object DebateBase {
         }
         userDebateReference.addListenerForSingleValueEvent(userDebateChangeListener)
         return debates
+    }
+
+    fun getParticipantsForDebate(id: String, adapter:RecyclerView.Adapter<*>): List<User>{
+        val participants = mutableListOf<User>()
+        val debateReference = database.getReference("/debates/$id/participants")
+        debateReference.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(dbError: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(child in dataSnapshot.children){
+                    val userReference = database.getReference("/users/${child.getValue(String::class.java)}")
+                    userReference.addListenerForSingleValueEvent(object:ValueEventListener{
+                        override fun onCancelled(dbError: DatabaseError) {
+
+                        }
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            participants.add(dataSnapshot.getValue(User::class.java)!!)
+                            adapter.notifyDataSetChanged()
+                        }
+                    })
+                }
+            }
+
+        })
+        return participants
     }
 
     fun getDebateCategories(): List<String>{

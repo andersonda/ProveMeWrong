@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
@@ -97,7 +98,8 @@ class OverviewActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> {
-                    ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!)
+                    ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!,
+                            currentUser.photoUrl.toString())
                 }
                 1 -> OverviewFragment()
                 2 -> BrowseFragment()

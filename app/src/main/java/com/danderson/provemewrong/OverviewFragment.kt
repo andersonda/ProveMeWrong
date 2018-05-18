@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -54,7 +55,7 @@ class OverviewFragment : Fragment() {
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var topic: TextView
             var category: TextView
-            var participants: LinearLayout
+            var participants: RecyclerView
             var time: TextView
             var end: TextView
 
@@ -82,6 +83,12 @@ class OverviewFragment : Fragment() {
                                 String.format(getString(R.string.end_date), format.format(Date()))
                               else
                                 String.format(getString(R.string.end_date), "none")
+
+            holder.participants.layoutManager = GridLayoutManager(activity, 4)
+
+            val adapter = UserAdapter()
+            adapter.users = DebateBase.getParticipantsForDebate(debate.id!!, adapter)
+            holder.participants.adapter = adapter
         }
 
         override fun getItemCount(): Int {

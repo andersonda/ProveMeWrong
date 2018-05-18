@@ -19,9 +19,12 @@ class CreateDebateActivity : AppCompatActivity(), CreateDebateFragment.DebateCre
     }
 
     override fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?) {
+
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val debate = if(isVote) Debate(topic, category, isTurnBased)
                      else TimedDebate(topic, category, isTurnBased, date!!)
 
+        debate.participants.add(uid)
         DebateBase.add(debate, FirebaseAuth.getInstance().currentUser!!)
         finish()
     }
