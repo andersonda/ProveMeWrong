@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
+              android:id="@+id/user_display"
+              android:orientation="horizontal"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center">
@@ -18,8 +19,8 @@
         android:id="@+id/display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
         tools:text="Display Name"
         />
 </LinearLayout>

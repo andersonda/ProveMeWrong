@@ -14,7 +14,10 @@
 
     <include layout="@layout/card_profile"/>
 
+    <include layout="@layout/card_contacts"/>
+
     <include layout="@layout/card_stats"/>
+
 </LinearLayout>
 
 </ScrollView>

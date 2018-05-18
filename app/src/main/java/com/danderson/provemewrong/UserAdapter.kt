@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.danderson.provemewrong.debatemodel.User
 import com.squareup.picasso.Picasso
@@ -16,6 +17,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val picture: ImageView = itemView.findViewById(R.id.profile_picture)
         val name: TextView = itemView.findViewById(R.id.display_name)
+        val layout: LinearLayout = itemView.findViewById(R.id.user_display)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
@@ -24,6 +26,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.layout.orientation = LinearLayout.VERTICAL
         val user = users[position]
         holder.name.text = user.displayName
         Picasso.get()

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     xmlns:card="http://schemas.android.com/apk/res-auto"
-                                    xmlns:tools="http://schemas.android.com/tools"
-
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     card:cardCornerRadius="8dp"
                                     card:cardElevation="5dp"
                                     card:contentPadding="4dp"
@@ -14,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -27,14 +25,14 @@
                 card:layout_constraintLeft_toLeftOf="parent"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/profile"/>
+                android:text="@string/contacts"/>
 
             <ImageButton
-                android:id="@+id/edit_profile"
+                android:id="@+id/add_contact"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                card:srcCompat="@drawable/ic_edit"
+                card:srcCompat="@drawable/ic_add"
                 card:layout_constraintRight_toRightOf="parent"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintBottom_toBottomOf="parent"/>
@@ -43,30 +41,34 @@
 
         <View style="@style/Divider"/>
 
-        <ImageView
-            android:id="@+id/profile_picture"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/pending_contacts"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card:srcCompat="@drawable/ic_profile"
-            android:layout_gravity="center"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:text="Name"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pending_contacts"
+                android:layout_margin="8dp"/>
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_pending_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"/>
+
+            <View style="@style/Divider"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_contacts"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:text="Email"
-            />
+            android:layout_margin="8dp"/>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
