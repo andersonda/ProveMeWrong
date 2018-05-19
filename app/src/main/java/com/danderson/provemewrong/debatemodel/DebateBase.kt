@@ -29,7 +29,7 @@ object DebateBase {
         debates.add(debate)
         val debateReference = database.getReference("/debates/").push()
         debateReference.setValue(debate)
-        val userReference = database.getReference("/user-debates/${user.uid}").push().setValue(debateReference.key)
+        val userReference = database.getReference("/users/${user.uid}/debates/${debateReference.key}").setValue(true)
     }
 
     fun addContact(uid: String, contactEmail: String){
@@ -59,7 +59,7 @@ object DebateBase {
 
     fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): List<Debate>{
         val debates = mutableListOf<Debate>()
-        val userDebateReference = database.getReference("/user-debates/${user.uid}")
+        val userDebateReference = database.getReference("/users/${user.uid}/debates")
         val userDebateChangeListener = object: ValueEventListener{
 
             override fun onCancelled(dbError: DatabaseError) {
@@ -68,7 +68,8 @@ object DebateBase {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for(child in dataSnapshot.children){
-                    val key = child.getValue(String::class.java)!!
+
+                    val key = child.key
                     val debateReference = database.getReference("/debates/$key")
                     debateReference.addListenerForSingleValueEvent(object: ValueEventListener{
                         override fun onCancelled(dbError: DatabaseError) {
