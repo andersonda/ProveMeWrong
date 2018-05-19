@@ -1,18 +1,10 @@
 package com.danderson.provemewrong.debatemodel
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
-import android.renderscript.Sampler
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import com.danderson.provemewrong.ContactAdapter
-import com.google.firebase.auth.FirebaseAuth
+import com.danderson.provemewrong.UserAdapter
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,6 +40,7 @@ object DebateBase {
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+
             }
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
@@ -137,11 +130,11 @@ object DebateBase {
         val pending = mutableListOf<User>()
     }
 
-    fun getContactsForUser(uid: String, contactsAdapter:RecyclerView.Adapter<*>,
-                           pendingAdapter:RecyclerView.Adapter<*>): Contacts{
+    fun getContactsForUser(uid: String, contactsAdapter:ContactAdapter,
+                           pendingAdapter:ContactAdapter): Contacts{
         val contacts = Contacts()
         val contactReference = database.getReference("/contacts/$uid")
-        contactReference.addListenerForSingleValueEvent(object: ValueEventListener{
+        contactReference.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(dbError: DatabaseError) {
 
             }
@@ -151,7 +144,7 @@ object DebateBase {
                     val userReference = database.getReference("/users/${child.key}")
                     val pending = child.getValue(Boolean::class.java)!!
 
-                    userReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                    userReference.addValueEventListener(object: ValueEventListener{
                         override fun onCancelled(dbError: DatabaseError) {
 
                         }
