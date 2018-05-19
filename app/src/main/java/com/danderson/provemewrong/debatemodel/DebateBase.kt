@@ -8,12 +8,10 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import com.danderson.provemewrong.ContactAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,11 +25,36 @@ object DebateBase {
     private var debates: ArrayList<Debate> = ArrayList()
     private val database = FirebaseDatabase.getInstance()
 
-    fun add(debate: Debate, user:FirebaseUser){
+    fun addDebate(debate: Debate, user:FirebaseUser){
         debates.add(debate)
         val debateReference = database.getReference("/debates/").push()
         debateReference.setValue(debate)
         val userReference = database.getReference("/user-debates/${user.uid}").push().setValue(debateReference.key)
+    }
+
+    fun addContact(uid: String, contactEmail: String){
+        val userReference = database.getReference("/users")
+        val query: Query = userReference.orderByChild("email").equalTo(contactEmail)
+        query.addChildEventListener(object: ChildEventListener{
+            override fun onCancelled(dbError: DatabaseError) {
+
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+            }
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+                val contactReference = database.getReference("/contacts/$uid/${dataSnapshot.key}")
+                contactReference.setValue(true)
+            }
+        })
     }
 
     fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): List<Debate>{
@@ -106,6 +129,49 @@ object DebateBase {
 
         })
         return participants
+    }
+
+    class Contacts{
+        val current = mutableListOf<User>()
+        val pending = mutableListOf<User>()
+    }
+
+    fun getContactsForUser(uid: String, contactsAdapter:RecyclerView.Adapter<*>,
+                           pendingAdapter:RecyclerView.Adapter<*>): Contacts{
+        val contacts = Contacts()
+        val contactReference = database.getReference("/contacts/$uid")
+        contactReference.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(dbError: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(child in dataSnapshot.children){
+                    val userReference = database.getReference("/users/${child.key}")
+                    val pending = child.getValue(Boolean::class.java)!!
+
+                    userReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onCancelled(dbError: DatabaseError) {
+
+                        }
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val user = dataSnapshot.getValue(User::class.java)!!
+                            if(pending){
+                                contacts.pending.add(user)
+                                pendingAdapter.notifyDataSetChanged()
+                            }
+                            else{
+                                contacts.current.add(user)
+                                contactsAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    })
+                }
+            }
+
+        })
+        return contacts
     }
 
     fun getDebateCategories(): List<String>{

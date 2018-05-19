@@ -25,7 +25,7 @@ class CreateDebateActivity : AppCompatActivity(), CreateDebateFragment.DebateCre
                      else TimedDebate(topic, category, isTurnBased, date!!)
 
         debate.participants.add(uid)
-        DebateBase.add(debate, FirebaseAuth.getInstance().currentUser!!)
+        DebateBase.addDebate(debate, FirebaseAuth.getInstance().currentUser!!)
         finish()
     }
 }

@@ -37,7 +37,8 @@
                 card:srcCompat="@drawable/ic_edit"
                 card:layout_constraintRight_toRightOf="parent"
                 card:layout_constraintTop_toTopOf="parent"
-                card:layout_constraintBottom_toBottomOf="parent"/>
+                card:layout_constraintBottom_toBottomOf="parent"
+                android:background="@null"/>
 
         </android.support.constraint.ConstraintLayout>
 

@@ -35,33 +35,19 @@
                 card:srcCompat="@drawable/ic_add"
                 card:layout_constraintRight_toRightOf="parent"
                 card:layout_constraintTop_toTopOf="parent"
-                card:layout_constraintBottom_toBottomOf="parent"/>
+                card:layout_constraintBottom_toBottomOf="parent"
+                android:background="@null"/>
 
         </android.support.constraint.ConstraintLayout>
 
         <View style="@style/Divider"/>
 
-        <LinearLayout
-            android:id="@+id/pending_contacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pending_contacts"
-                android:layout_margin="8dp"/>
-
-            <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_pending_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"/>
 
-            <View style="@style/Divider"/>
-
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_contacts"

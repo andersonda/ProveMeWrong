@@ -18,7 +18,7 @@ class CreateDebateFragment : Fragment(){
     private val DIALOG = 1
     private val EXTRA_DATE = "extra_date"
     private var date = Date()
-    var endTime: TextView? = null
+    private var endTime: TextView? = null
 
     interface DebateCreation{
         fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?)

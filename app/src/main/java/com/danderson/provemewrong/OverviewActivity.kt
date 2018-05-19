@@ -99,7 +99,7 @@ class OverviewActivity : AppCompatActivity() {
             return when (position) {
                 0 -> {
                     ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!,
-                            currentUser.photoUrl.toString())
+                            currentUser.photoUrl.toString(), currentUser.uid)
                 }
                 1 -> OverviewFragment()
                 2 -> BrowseFragment()
