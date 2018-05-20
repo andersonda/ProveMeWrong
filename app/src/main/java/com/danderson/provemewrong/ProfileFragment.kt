@@ -48,7 +48,7 @@ class ProfileFragment : Fragment() {
         val pendingAdapter = ContactAdapter(true)
 
         val contacts = DebateBase.getContactsForUser(args.getString(ARG_UID), contactsAdapter, pendingAdapter)
-        contactsAdapter.users = contacts.current
+        contactsAdapter.users = contacts.accepted
         pendingAdapter.users = contacts.pending
 
         val pendingLayoutManager = LinearLayoutManager(activity)
@@ -68,13 +68,12 @@ class ProfileFragment : Fragment() {
             val emailText: EditText = dialogView.findViewById(R.id.contact_email)
             val dialog = AlertDialog.Builder(context!!)
                     .setTitle(R.string.dialog_add_contact)
-                    .setNegativeButton(R.string.cancel, {_,_->})
+                    .setNegativeButton(R.string.cancel, {_,_ -> })
                     .setPositiveButton(R.string.send,{_,_ ->
                         DebateBase.addContact(args.getString(ARG_UID), emailText.text.toString())
                     })
                     .setView(dialogView)
                     .show()
-
         }
 
         return view

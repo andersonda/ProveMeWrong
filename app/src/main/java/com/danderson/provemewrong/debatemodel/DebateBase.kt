@@ -1,8 +1,8 @@
 package com.danderson.provemewrong.debatemodel
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.danderson.provemewrong.ContactAdapter
-import com.danderson.provemewrong.UserAdapter
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
@@ -13,6 +13,13 @@ import java.util.*
  */
 object DebateBase {
     val formatter: SimpleDateFormat = SimpleDateFormat("EEE MMM dd, HH:mm", Locale.US)
+
+    /**
+     * Constants for contacts.
+     *      SENT     -> contact request has been sent by the current user but not yet accepted by the receiver
+     *      RECEIVED -> contact request has been received by the current user, but they have not yet accepted it
+     *      ACCEPTED -> contact request has been accepted by recipient
+     */
 
     private var debates: ArrayList<Debate> = ArrayList()
     private val database = FirebaseDatabase.getInstance()
@@ -44,8 +51,13 @@ object DebateBase {
             }
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
-                val contactReference = database.getReference("/contacts/$uid/${dataSnapshot.key}")
-                contactReference.setValue(true)
+                // add contacts reference for sender
+                var contactReference = database.getReference("/contacts/$uid/${dataSnapshot.key}")
+                contactReference.setValue(Contact.ContactStatus.SENT)
+
+                // add contacts reference for reciever
+                contactReference = database.getReference("/contacts/${dataSnapshot.key}/$uid")
+                contactReference.setValue(Contact.ContactStatus.RECEIVED)
             }
         })
     }
@@ -126,8 +138,8 @@ object DebateBase {
     }
 
     class Contacts{
-        val current = mutableListOf<User>()
-        val pending = mutableListOf<User>()
+        val pending = mutableListOf<Contact>()
+        val accepted = mutableListOf<Contact>()
     }
 
     fun getContactsForUser(uid: String, contactsAdapter:ContactAdapter,
@@ -142,7 +154,6 @@ object DebateBase {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for(child in dataSnapshot.children){
                     val userReference = database.getReference("/users/${child.key}")
-                    val pending = child.getValue(Boolean::class.java)!!
 
                     userReference.addValueEventListener(object: ValueEventListener{
                         override fun onCancelled(dbError: DatabaseError) {
@@ -151,13 +162,17 @@ object DebateBase {
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val user = dataSnapshot.getValue(User::class.java)!!
-                            if(pending){
-                                contacts.pending.add(user)
-                                pendingAdapter.notifyDataSetChanged()
+                            val contactType = child.getValue(Contact.ContactStatus::class.java)!!
+                            val contact = Contact(user.email, user.displayName, user.imageURL, contactType)
+
+                            if(contactType == Contact.ContactStatus.ACCEPTED){
+                                contacts.accepted.add(contact)
+                                contactsAdapter.notifyDataSetChanged()
                             }
                             else{
-                                contacts.current.add(user)
-                                contactsAdapter.notifyDataSetChanged()
+                                contacts.pending.add(contact)
+                                Log.i("PENDING", contact.email)
+                                pendingAdapter.notifyDataSetChanged()
                             }
                         }
                     })
