@@ -38,6 +38,7 @@ class AuthenticationActivity : AppCompatActivity() {
                 val reference = database.getReference("/users/${currentUser.uid}")
                 reference.setValue(User(currentUser.email!!, currentUser.displayName!!,
                         currentUser.photoUrl.toString()))
+                reference.child("id").setValue(currentUser.uid)
                 startActivity(Intent(this, OverviewActivity::class.java))
                 return
             }

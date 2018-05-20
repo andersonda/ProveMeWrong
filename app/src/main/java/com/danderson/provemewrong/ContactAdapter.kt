@@ -1,11 +1,14 @@
 package com.danderson.provemewrong
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.danderson.provemewrong.debatemodel.Contact
+import com.danderson.provemewrong.debatemodel.DebateBase
+import com.google.firebase.auth.FirebaseAuth
 
 class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
 
@@ -31,7 +34,7 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
 
             holder.name.text = displayWithSuffix
 
-            val popup = createPopup(holder, type)
+            val popup = createPopup(holder, position, type)
             val optionsButton = (holder as ViewHolder).options
             optionsButton.setOnClickListener{
                 popup.show()
@@ -39,7 +42,7 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
         }
     }
 
-    private fun createPopup(holder: UserAdapter.ViewHolder, type: Contact.ContactStatus): PopupMenu{
+    private fun createPopup(holder: UserAdapter.ViewHolder, position: Int, type: Contact.ContactStatus): PopupMenu{
         val popup = PopupMenu(context, (holder as ViewHolder).options)
         when(type){
             Contact.ContactStatus.SENT -> {
@@ -49,6 +52,18 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
                 popup.menuInflater.inflate(R.menu.popup_received_contact, popup.menu)
             }
             Contact.ContactStatus.ACCEPTED -> {}
+        }
+
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.cancel_request -> {
+                    Log.i("ID", users[position].id)
+                    DebateBase.removeContact(FirebaseAuth.getInstance().currentUser!!.uid, users[position].id)
+                    true
+                }
+
+                else -> false
+            }
         }
 
         return popup

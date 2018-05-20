@@ -55,11 +55,16 @@ object DebateBase {
                 var contactReference = database.getReference("/contacts/$uid/${dataSnapshot.key}")
                 contactReference.setValue(Contact.ContactStatus.SENT)
 
-                // add contacts reference for reciever
+                // add contacts reference for receiver
                 contactReference = database.getReference("/contacts/${dataSnapshot.key}/$uid")
                 contactReference.setValue(Contact.ContactStatus.RECEIVED)
             }
         })
+    }
+
+    fun removeContact(uid:String, contact:String){
+        val userReference = database.getReference("/contacts/$uid/$contact").removeValue()
+        val contactReference = database.getReference("/contacts/$contact/$uid").removeValue()
     }
 
     fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): List<Debate>{
@@ -164,6 +169,7 @@ object DebateBase {
                             val user = dataSnapshot.getValue(User::class.java)!!
                             val contactType = child.getValue(Contact.ContactStatus::class.java)!!
                             val contact = Contact(user.email, user.displayName, user.imageURL, contactType)
+                            contact.id = user.id
 
                             if(contactType == Contact.ContactStatus.ACCEPTED){
                                 contacts.accepted.add(contact)
@@ -171,14 +177,12 @@ object DebateBase {
                             }
                             else{
                                 contacts.pending.add(contact)
-                                Log.i("PENDING", contact.email)
                                 pendingAdapter.notifyDataSetChanged()
                             }
                         }
                     })
                 }
             }
-
         })
         return contacts
     }
