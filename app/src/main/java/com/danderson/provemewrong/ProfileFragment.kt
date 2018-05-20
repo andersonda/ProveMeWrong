@@ -44,8 +44,8 @@ class ProfileFragment : Fragment() {
                 .into(photo)
 
         // layout items for contacts card
-        val contactsAdapter = ContactAdapter(false)
-        val pendingAdapter = ContactAdapter(true)
+        val contactsAdapter = ContactAdapter(false, context!!)
+        val pendingAdapter = ContactAdapter(true, context!!)
 
         val contacts = DebateBase.getContactsForUser(args.getString(ARG_UID), contactsAdapter, pendingAdapter)
         contactsAdapter.users = contacts.accepted

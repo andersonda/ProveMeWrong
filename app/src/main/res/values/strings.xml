@@ -35,4 +35,8 @@
     <string name="dialog_add_contact">Enter email address of contact</string>
     <string name="cancel">Cancel</string>
     <string name="send">Send</string>
+    <string name="request_sent">%1$s (Sent)</string>
+    <string name="request_received">%1$s (Received)</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
 </resources>
