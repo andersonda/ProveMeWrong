@@ -24,8 +24,9 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
         holder.layout.orientation = LinearLayout.HORIZONTAL
         super.onBindViewHolder(holder, position)
+
+        val type = (users[position] as Contact).type
         if(pending){
-            val type = (users[position] as Contact).type
             val display = holder.name.text.toString()
             val displayWithSuffix =  if(type == Contact.ContactStatus.SENT)
                                         String.format(context.getString(R.string.request_sent), display)
@@ -33,12 +34,12 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
                                         String.format(context.getString(R.string.request_received), display)
 
             holder.name.text = displayWithSuffix
+        }
 
-            val popup = createPopup(holder, position, type)
-            val optionsButton = (holder as ViewHolder).options
-            optionsButton.setOnClickListener{
-                popup.show()
-            }
+        val popup = createPopup(holder, position, type)
+        val optionsButton = (holder as ViewHolder).options
+        optionsButton.setOnClickListener{
+            popup.show()
         }
     }
 
@@ -51,17 +52,32 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
             Contact.ContactStatus.RECEIVED -> {
                 popup.menuInflater.inflate(R.menu.popup_received_contact, popup.menu)
             }
-            Contact.ContactStatus.ACCEPTED -> {}
+            Contact.ContactStatus.ACCEPTED -> {
+                Log.i("ACCEPTED", "accepted")
+                popup.menuInflater.inflate(R.menu.popup_accepted_contact, popup.menu)
+            }
         }
 
         popup.setOnMenuItemClickListener {
+            val currentUser = FirebaseAuth.getInstance().currentUser!!.uid
+            val contact = users[position].id
             when(it.itemId){
                 R.id.cancel_request -> {
-                    Log.i("ID", users[position].id)
-                    DebateBase.removeContact(FirebaseAuth.getInstance().currentUser!!.uid, users[position].id)
+                    DebateBase.removeContact(currentUser, contact)
                     true
                 }
-
+                R.id.reject_request -> {
+                    DebateBase.removeContact(currentUser, contact)
+                    true
+                }
+                R.id.accept_request -> {
+                    DebateBase.acceptContact(currentUser, contact)
+                    true
+                }
+                R.id.remove_contact -> {
+                    DebateBase.removeContact(currentUser, contact)
+                    true
+                }
                 else -> false
             }
         }

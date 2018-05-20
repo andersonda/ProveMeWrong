@@ -33,10 +33,11 @@
     <string name="contacts">Contacts</string>
     <string name="pending_contacts">Pending</string>
     <string name="dialog_add_contact">Enter email address of contact</string>
-    <string name="cancel">Cancel</string>
     <string name="send">Send</string>
     <string name="request_sent">%1$s (Sent)</string>
     <string name="request_received">%1$s (Received)</string>
-    <string name="reject">Reject</string>
-    <string name="accept">Accept</string>
+    <string name="cancel">Cancel Request</string>
+    <string name="reject">Reject Request</string>
+    <string name="accept">Accept Request</string>
+    <string name="remove">Remove Contact</string>
 </resources>

@@ -44,6 +44,7 @@ object DebateBase {
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
+
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
@@ -65,6 +66,11 @@ object DebateBase {
     fun removeContact(uid:String, contact:String){
         val userReference = database.getReference("/contacts/$uid/$contact").removeValue()
         val contactReference = database.getReference("/contacts/$contact/$uid").removeValue()
+    }
+
+    fun acceptContact(uid: String, contact: String){
+        val userReference = database.getReference("/contacts/$uid/$contact").setValue(Contact.ContactStatus.ACCEPTED)
+        val contactReference = database.getReference("/contacts/$contact/$uid").setValue(Contact.ContactStatus.ACCEPTED)
     }
 
     fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): List<Debate>{
@@ -159,10 +165,30 @@ object DebateBase {
             override fun onChildMoved(child: DataSnapshot, p1: String?) {
             }
 
+            /**
+             * recipient of contact request accepts request
+             */
             override fun onChildChanged(child: DataSnapshot, p1: String?) {
+                val userReference = database.getReference("/users/${child.key}")
+                userReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onCancelled(dbError: DatabaseError) {
 
+                    }
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val contact = getContact(child, dataSnapshot)
+                        if(contacts.pending.contains(contact)){
+                            contacts.pending.remove(contact)
+                            contacts.accepted.add(contact)
+                            pendingAdapter.notifyDataSetChanged()
+                            contactsAdapter.notifyDataSetChanged()
+                        }
+                    }
+                })
             }
 
+            /**
+             * new contact request is submitted by current user
+             */
             override fun onChildAdded(child: DataSnapshot, p1: String?) {
                 val userReference = database.getReference("/users/${child.key}")
                 userReference.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -182,6 +208,9 @@ object DebateBase {
                 })
             }
 
+            /**
+             * contact is removed or contact request is rejected
+             */
             override fun onChildRemoved(child: DataSnapshot) {
                 val userReference = database.getReference("/users/${child.key}")
                 userReference.addListenerForSingleValueEvent(object: ValueEventListener{
