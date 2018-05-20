@@ -151,40 +151,65 @@ object DebateBase {
                            pendingAdapter:ContactAdapter): Contacts{
         val contacts = Contacts()
         val contactReference = database.getReference("/contacts/$uid")
-        contactReference.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(dbError: DatabaseError) {
+        contactReference.addChildEventListener(object: ChildEventListener{
+            override fun onCancelled(dbError: DatabaseError?) {
 
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for(child in dataSnapshot.children){
-                    val userReference = database.getReference("/users/${child.key}")
+            override fun onChildMoved(child: DataSnapshot, p1: String?) {
+            }
 
-                    userReference.addValueEventListener(object: ValueEventListener{
-                        override fun onCancelled(dbError: DatabaseError) {
+            override fun onChildChanged(child: DataSnapshot, p1: String?) {
 
+            }
+
+            override fun onChildAdded(child: DataSnapshot, p1: String?) {
+                val userReference = database.getReference("/users/${child.key}")
+                userReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onCancelled(dbError: DatabaseError) {
+                    }
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val contact = getContact(child, dataSnapshot)
+                        if(contact.type == Contact.ContactStatus.ACCEPTED){
+                            contacts.accepted.add(contact)
+                            contactsAdapter.notifyDataSetChanged()
                         }
-
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val user = dataSnapshot.getValue(User::class.java)!!
-                            val contactType = child.getValue(Contact.ContactStatus::class.java)!!
-                            val contact = Contact(user.email, user.displayName, user.imageURL, contactType)
-                            contact.id = user.id
-
-                            if(contactType == Contact.ContactStatus.ACCEPTED){
-                                contacts.accepted.add(contact)
-                                contactsAdapter.notifyDataSetChanged()
-                            }
-                            else{
-                                contacts.pending.add(contact)
-                                pendingAdapter.notifyDataSetChanged()
-                            }
+                        else{
+                            contacts.pending.add(contact)
+                            pendingAdapter.notifyDataSetChanged()
                         }
-                    })
-                }
+                    }
+                })
+            }
+
+            override fun onChildRemoved(child: DataSnapshot) {
+                val userReference = database.getReference("/users/${child.key}")
+                userReference.addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onCancelled(dbError: DatabaseError) {
+                    }
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val contact = getContact(child, dataSnapshot)
+                        if(contacts.pending.contains(contact)){
+                            contacts.pending.remove(contact)
+                            pendingAdapter.notifyDataSetChanged()
+                        }
+                        else{
+                            contacts.accepted.remove(contact)
+                            contactsAdapter.notifyDataSetChanged()
+                        }
+                    }
+                })
             }
         })
         return contacts
+    }
+
+    private fun getContact(contactType: DataSnapshot, user: DataSnapshot): Contact{
+        val user = user.getValue(User::class.java)!!
+        val contactType = contactType.getValue(Contact.ContactStatus::class.java)!!
+        val contact = Contact(user.email, user.displayName, user.imageURL, contactType)
+        contact.id = user.id
+        return contact
     }
 
     fun getDebateCategories(): List<String>{
