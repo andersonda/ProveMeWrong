@@ -5,7 +5,7 @@
     <item
         android:id="@+id/cancel_request"
         android:icon="@drawable/ic_reject"
-        android:title="@string/cancel"
+        android:title="@string/cancel_request"
         app:showAsAction="ifRoom"/>
 
 </menu>

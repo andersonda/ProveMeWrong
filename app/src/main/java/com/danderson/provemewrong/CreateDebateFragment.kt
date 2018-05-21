@@ -14,10 +14,15 @@ import java.util.*
 
 class CreateDebateFragment : Fragment(){
     private var navigationCallback: Navigation? = null
+    private var debateCallback: DebateCreation? = null
     private val DIALOG = 1
     private val EXTRA_DATE = "extra_date"
     private var date = Date()
     private var endTime: TextView? = null
+
+    interface DebateCreation{
+        fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -64,6 +69,16 @@ class CreateDebateFragment : Fragment(){
         val nextButton: Button = v.findViewById(R.id.button_next)
         nextButton.setOnClickListener{
             navigationCallback!!.onNextButtonPressed()
+            val isVote = when(end.checkedRadioButtonId){
+                R.id.radio_vote -> true
+                else -> false
+            }
+            val isTurnBased = when(turns.checkedRadioButtonId){
+                R.id.radio_turn_based -> true
+                else -> false
+            }
+            debateCallback!!.onDebateInformationSubmitted(topic.text.toString(), categories.selectedItem.toString(),
+                    isVote, isTurnBased, DebateBase.formatter.format(date))
         }
 
         return v
@@ -88,6 +103,12 @@ class CreateDebateFragment : Fragment(){
         } catch (e: ClassCastException){
             throw ClassCastException(context?.toString()
                 + "must implement Navigation interface")
+        }
+        try {
+            debateCallback= context as DebateCreation
+        } catch (e: ClassCastException){
+            throw ClassCastException(context?.toString()
+                    + "must implement DebateCreation interface")
         }
     }
 }

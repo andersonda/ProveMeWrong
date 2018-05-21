@@ -7,7 +7,7 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <ScrollView android:id="@+id/scroll_add_participants"
+    <android.support.v4.widget.NestedScrollView android:id="@+id/scroll_add_participants"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -22,9 +22,11 @@
 
             <include layout="@layout/card_participants"/>
 
+            <include layout="@layout/card_contacts_accepted"/>
+
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

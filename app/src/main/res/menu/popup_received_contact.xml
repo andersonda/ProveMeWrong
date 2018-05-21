@@ -5,13 +5,13 @@
     <item
         android:id="@+id/accept_request"
         android:icon="@drawable/ic_reject"
-        android:title="@string/accept"
+        android:title="@string/accept_request"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/reject_request"
         android:icon="@drawable/ic_reject"
-        android:title="@string/reject"
+        android:title="@string/reject_request"
         app:showAsAction="ifRoom"/>
 
 </menu>

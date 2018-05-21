@@ -83,8 +83,14 @@ object DebateBase {
         val accepted = mutableListOf<Contact>()
     }
 
+
+    /**
+     * gets contacts for current user. if @param pendingAdapter is null,
+     * only gets the contacts that have accepted sent requests. otherwise,
+     * the pending requests are included
+     */
     fun getContactsForUser(uid: String, contactsAdapter: ContactAdapter,
-                           pendingAdapter: ContactAdapter): Contacts{
+                           pendingAdapter: ContactAdapter?): Contacts{
         val contacts = Contacts()
         val contactReference = database.getReference("/contacts/$uid")
         contactReference.addChildEventListener(object: ChildEventListener{
@@ -109,7 +115,7 @@ object DebateBase {
                         if(contacts.pending.contains(contact)){
                             contacts.pending.remove(contact)
                             contacts.accepted.add(contact)
-                            pendingAdapter.notifyDataSetChanged()
+                            pendingAdapter?.notifyDataSetChanged()
                             contactsAdapter.notifyDataSetChanged()
                         }
                     }
@@ -132,7 +138,7 @@ object DebateBase {
                         }
                         else{
                             contacts.pending.add(contact)
-                            pendingAdapter.notifyDataSetChanged()
+                            pendingAdapter?.notifyDataSetChanged()
                         }
                     }
                 })
@@ -150,7 +156,7 @@ object DebateBase {
                         val contact = getContact(child, dataSnapshot)
                         if(contacts.pending.contains(contact)){
                             contacts.pending.remove(contact)
-                            pendingAdapter.notifyDataSetChanged()
+                            pendingAdapter?.notifyDataSetChanged()
                         }
                         else{
                             contacts.accepted.remove(contact)

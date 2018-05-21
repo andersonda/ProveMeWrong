@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
             val emailText: EditText = dialogView.findViewById(R.id.contact_email)
             val dialog = AlertDialog.Builder(context!!)
                     .setTitle(R.string.dialog_add_contact)
-                    .setNegativeButton(R.string.cancel, {_,_ -> })
+                    .setNegativeButton(R.string.cancel_request, { _, _ -> })
                     .setPositiveButton(R.string.send,{_,_ ->
                         DebateBase.addContact(args.getString(ARG_UID), emailText.text.toString())
                     })

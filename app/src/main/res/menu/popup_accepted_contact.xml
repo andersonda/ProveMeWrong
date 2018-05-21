@@ -5,6 +5,6 @@
     <item
         android:id="@+id/remove_contact"
         android:icon="@drawable/ic_reject"
-        android:title="@string/remove"
+        android:title="@string/remove_contact"
         app:showAsAction="ifRoom"/>
 </menu>

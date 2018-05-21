@@ -30,6 +30,7 @@ class ParticipantAdapter(val creatorId: String): UserAdapter<User>() {
 
         holder.remove.setOnClickListener{
             users.removeAt(position)
+            this.notifyDataSetChanged()
         }
 
         super.onBindViewHolder(holder, position)

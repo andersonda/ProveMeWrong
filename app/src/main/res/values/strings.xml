@@ -37,11 +37,12 @@
     <string name="send">Send</string>
     <string name="request_sent">%1$s (Sent)</string>
     <string name="request_received">%1$s (Received)</string>
-    <string name="cancel">Cancel Request</string>
-    <string name="reject">Reject Request</string>
-    <string name="accept">Accept Request</string>
-    <string name="remove">Remove Contact</string>
+    <string name="cancel_request">Cancel Request</string>
+    <string name="reject_request">Reject Request</string>
+    <string name="accept_request">Accept Request</string>
+    <string name="remove_contact">Remove Contact</string>
     <string name="cancel_debate_creation">Cancel debate creation?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="submit_debate">Submit new debate?</string>
 </resources>

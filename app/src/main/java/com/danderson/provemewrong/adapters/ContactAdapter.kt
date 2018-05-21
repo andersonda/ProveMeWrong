@@ -11,9 +11,9 @@ import com.danderson.provemewrong.debatemodel.Contact
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.google.firebase.auth.FirebaseAuth
 
-class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Contact>(){
+open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Contact>(){
 
-    inner class ViewHolder(itemView: View): UserAdapter<Contact>.ViewHolder(itemView){
+    open inner class ViewHolder(itemView: View): UserAdapter<Contact>.ViewHolder(itemView){
         var options: ImageButton = itemView.findViewById(R.id.contact_options)
     }
 
@@ -26,7 +26,7 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Co
         holder.layout.orientation = LinearLayout.HORIZONTAL
         super.onBindViewHolder(holder, position)
 
-        val type = (users[position] as Contact).type
+        val type = users[position].type
         if(pending){
             val display = holder.name.text.toString()
             val displayWithSuffix =  if(type == Contact.ContactStatus.SENT)
