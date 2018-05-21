@@ -13,8 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.danderson.provemewrong.adapters.UserAdapter
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.danderson.provemewrong.debatemodel.TimedDebate
+import com.danderson.provemewrong.debatemodel.User
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,7 +37,7 @@ class OverviewFragment : Fragment() {
         val debates = v.findViewById<RecyclerView>(R.id.recycler_view_debates)
         val fab = v.findViewById<FloatingActionButton>(R.id.floatingActionButton)
 
-        layoutManager = LinearLayoutManager(activity)
+        layoutManager = LinearLayoutManager(context)
         debates.layoutManager = layoutManager
         adapter = DebatesAdapter()
         debates.adapter = adapter
@@ -85,7 +87,7 @@ class OverviewFragment : Fragment() {
 
             holder.participants.layoutManager = GridLayoutManager(activity, 4)
 
-            val adapter = UserAdapter()
+            val adapter = UserAdapter<User>()
             adapter.users = DebateBase.getParticipantsForDebate(debate.id!!, adapter)
             holder.participants.adapter = adapter
         }

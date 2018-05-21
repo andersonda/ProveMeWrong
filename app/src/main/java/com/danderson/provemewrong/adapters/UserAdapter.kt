@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.danderson.provemewrong.R
 import com.danderson.provemewrong.debatemodel.User
 import com.squareup.picasso.Picasso
 
-open class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+open class UserAdapter<T>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
 
-    var users: List<User> = mutableListOf()
+    var users: MutableList<T> = mutableListOf()
 
     open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val picture: ImageView = itemView.findViewById(R.id.profile_picture)
@@ -20,13 +21,13 @@ open class UserAdapter: RecyclerView.Adapter<UserAdapter.ViewHolder>() {
         val layout: LinearLayout = itemView.findViewById(R.id.user_display)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.recycler_user, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_user, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = users[position]
+        val user = users[position] as User
         holder.name.text = user.displayName
         Picasso.get()
                 .load(user.imageURL)

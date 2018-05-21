@@ -10,19 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.danderson.provemewrong.debatemodel.DebateBase
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateDebateFragment : Fragment(){
-    private var activityCallback: CreateDebateFragment.DebateCreation? = null
+    private var navigationCallback: Navigation? = null
     private val DIALOG = 1
     private val EXTRA_DATE = "extra_date"
     private var date = Date()
     private var endTime: TextView? = null
-
-    interface DebateCreation{
-        fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -61,27 +56,14 @@ class CreateDebateFragment : Fragment(){
                 }
             }
         }
-        val cancelButton: Button = v.findViewById(R.id.button_back)
-        cancelButton.setOnClickListener{
-            startActivity(Intent(activity, OverviewActivity::class.java))
-            activity?.finish()
+        val backButton: Button = v.findViewById(R.id.button_back)
+        backButton.setOnClickListener{
+            navigationCallback!!.onBackButtonPressed()
         }
 
-        val submitButton: Button = v.findViewById(R.id.button_next)
-        submitButton.setOnClickListener{
-            val isVote = when(end.checkedRadioButtonId){
-                R.id.radio_vote -> true
-                else -> false
-            }
-            val isTurnBased = when(turns.checkedRadioButtonId){
-                R.id.radio_turn_based -> true
-                else -> false
-            }
-
-            activityCallback?.onDebateInformationSubmitted(topic.text.toString(),
-                    categories.selectedItem.toString(), isVote, isTurnBased, DebateBase.formatter.format(date))
-            startActivity(Intent(activity, OverviewActivity::class.java))
-            activity?.finish()
+        val nextButton: Button = v.findViewById(R.id.button_next)
+        nextButton.setOnClickListener{
+            navigationCallback!!.onNextButtonPressed()
         }
 
         return v
@@ -102,10 +84,10 @@ class CreateDebateFragment : Fragment(){
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
-            activityCallback = context as DebateCreation
+            navigationCallback = context as Navigation
         } catch (e: ClassCastException){
             throw ClassCastException(context?.toString()
-                + "must implement DebateCreation interface")
+                + "must implement Navigation interface")
         }
     }
 }

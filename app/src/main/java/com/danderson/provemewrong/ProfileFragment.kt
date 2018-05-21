@@ -1,28 +1,18 @@
 package com.danderson.provemewrong
 
 
-import android.content.DialogInterface
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Rect
-import android.media.Image
-import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.danderson.provemewrong.adapters.ContactAdapter
 import com.danderson.provemewrong.debatemodel.DebateBase
-import com.danderson.provemewrong.debatemodel.User
 import com.squareup.picasso.Picasso
-import java.io.InputStream
-import java.lang.ref.WeakReference
 
 class ProfileFragment : Fragment() {
 

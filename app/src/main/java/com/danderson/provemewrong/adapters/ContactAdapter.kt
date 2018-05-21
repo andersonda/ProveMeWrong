@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.adapters
 
 import android.content.Context
 import android.util.Log
@@ -6,22 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.danderson.provemewrong.R
 import com.danderson.provemewrong.debatemodel.Contact
 import com.danderson.provemewrong.debatemodel.DebateBase
 import com.google.firebase.auth.FirebaseAuth
 
-class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
+class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Contact>(){
 
-    inner class ViewHolder(itemView: View): UserAdapter.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View): UserAdapter<Contact>.ViewHolder(itemView){
         var options: ImageButton = itemView.findViewById(R.id.contact_options)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.recycler_contact, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_contact, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserAdapter<Contact>.ViewHolder, position: Int) {
         holder.layout.orientation = LinearLayout.HORIZONTAL
         super.onBindViewHolder(holder, position)
 
@@ -43,7 +44,7 @@ class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter(){
         }
     }
 
-    private fun createPopup(holder: UserAdapter.ViewHolder, position: Int, type: Contact.ContactStatus): PopupMenu{
+    private fun createPopup(holder: UserAdapter<Contact>.ViewHolder, position: Int, type: Contact.ContactStatus): PopupMenu{
         val popup = PopupMenu(context, (holder as ViewHolder).options)
         when(type){
             Contact.ContactStatus.SENT -> {

@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -25,10 +26,10 @@
                 card:layout_constraintLeft_toLeftOf="parent"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/contacts"/>
+                android:text="@string/participants"/>
 
             <ImageButton
-                android:id="@+id/add_contact"
+                android:id="@+id/add_participant"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,18 +43,7 @@
 
         <View style="@style/Divider"/>
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_pending_contacts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_contacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"/>
+        <include layout="@layout/recycler_participants"/>
 
     </LinearLayout>
 

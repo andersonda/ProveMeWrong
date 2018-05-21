@@ -20,6 +20,7 @@
     <string name="create_debate">Create Debate</string>
     <string name="back">Back</string>
     <string name="participants">Participants</string>
+    <string name="add_participants">Add Participants</string>
     <string name="last_activity">Last Activity: %1$s</string>
     <string name="end_date">End Date: %1$s</string>
     <string name="browse">Browse</string>
@@ -40,4 +41,7 @@
     <string name="reject">Reject Request</string>
     <string name="accept">Accept Request</string>
     <string name="remove">Remove Contact</string>
+    <string name="cancel_debate_creation">Cancel debate creation?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
