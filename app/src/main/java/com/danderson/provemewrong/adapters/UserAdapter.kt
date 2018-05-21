@@ -11,7 +11,7 @@ import com.danderson.provemewrong.R
 import com.danderson.provemewrong.debatemodel.User
 import com.squareup.picasso.Picasso
 
-open class UserAdapter<T>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
+open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
 
     var users: MutableList<T> = mutableListOf()
 
@@ -27,7 +27,7 @@ open class UserAdapter<T>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = users[position] as User
+        val user = users[position]
         holder.name.text = user.displayName
         Picasso.get()
                 .load(user.imageURL)
