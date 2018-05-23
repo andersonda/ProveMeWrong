@@ -8,6 +8,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.firebase.ui.auth.ResultCodes
+import com.google.firebase.auth.AdditionalUserInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -35,10 +36,14 @@ class AuthenticationActivity : AppCompatActivity() {
         if(requestCode == AUTHENTICATION_REQUEST){
             if(resultCode == ResultCodes.OK){
                 val currentUser = FirebaseAuth.getInstance().currentUser!!
-                val reference = database.getReference("/users/${currentUser.uid}")
-                reference.setValue(User(currentUser.email!!, currentUser.displayName!!,
-                        currentUser.photoUrl.toString()))
-                reference.child("id").setValue(currentUser.uid)
+
+                // if this is the first login, add a new User entry to the realtime database
+                if(currentUser.metadata!!.creationTimestamp == currentUser.metadata!!.lastSignInTimestamp){
+                    val reference = database.getReference("/users/${currentUser.uid}")
+                    reference.setValue(User(currentUser.email!!, currentUser.displayName!!,
+                            currentUser.photoUrl.toString()))
+                    reference.child("id").setValue(currentUser.uid)
+                }
                 startActivity(Intent(this, OverviewActivity::class.java))
                 return
             }

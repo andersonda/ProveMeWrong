@@ -69,13 +69,13 @@ object DebateBase {
     }
 
     fun removeContact(uid:String, contact:String){
-        val userReference = database.getReference("/contacts/$uid/$contact").removeValue()
-        val contactReference = database.getReference("/contacts/$contact/$uid").removeValue()
+        database.getReference("/contacts/$uid/$contact").removeValue()
+        database.getReference("/contacts/$contact/$uid").removeValue()
     }
 
     fun acceptContact(uid: String, contact: String){
-        val userReference = database.getReference("/contacts/$uid/$contact").setValue(Contact.ContactStatus.ACCEPTED)
-        val contactReference = database.getReference("/contacts/$contact/$uid").setValue(Contact.ContactStatus.ACCEPTED)
+        database.getReference("/contacts/$uid/$contact").setValue(Contact.ContactStatus.ACCEPTED)
+        database.getReference("/contacts/$contact/$uid").setValue(Contact.ContactStatus.ACCEPTED)
     }
 
     class Contacts{
@@ -181,7 +181,10 @@ object DebateBase {
         debates.add(debate)
         val debateReference = database.getReference("/debates/").push()
         debateReference.setValue(debate)
-        val userReference = database.getReference("/users/${user.uid}/debates/${debateReference.key}").setValue(true)
+
+        debate.participants.forEach {
+            database.getReference("/users/$it/debates/${debateReference.key}").setValue(true)
+        }
     }
 
     fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): MutableList<Debate>{
