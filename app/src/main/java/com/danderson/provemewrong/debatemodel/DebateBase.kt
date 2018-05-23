@@ -1,6 +1,7 @@
 package com.danderson.provemewrong.debatemodel
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.danderson.provemewrong.adapters.ContactAdapter
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -114,7 +115,7 @@ object DebateBase {
                         val contact = getContact(child, dataSnapshot)
                         if(contacts.pending.contains(contact)){
                             contacts.pending.remove(contact)
-                            contacts.accepted.add(contact)
+                            insertSorted(contacts.accepted, contact)
                             pendingAdapter?.notifyDataSetChanged()
                             contactsAdapter.notifyDataSetChanged()
                         }
@@ -133,11 +134,11 @@ object DebateBase {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val contact = getContact(child, dataSnapshot)
                         if(contact.type == Contact.ContactStatus.ACCEPTED){
-                            contacts.accepted.add(contact)
+                            insertSorted(contacts.accepted, contact)
                             contactsAdapter.notifyDataSetChanged()
                         }
                         else{
-                            contacts.pending.add(contact)
+                            insertSorted(contacts.pending, contact)
                             pendingAdapter?.notifyDataSetChanged()
                         }
                     }
@@ -251,7 +252,7 @@ object DebateBase {
                         }
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            participants.add(dataSnapshot.getValue(User::class.java)!!)
+                            insertSorted(participants, dataSnapshot.getValue(User::class.java)!!)
                             adapter.notifyDataSetChanged()
                         }
                     })
@@ -283,5 +284,15 @@ object DebateBase {
         categories.add("Other") // hack to ensure "Other" category is always at the end of the list
 
         return categories
+    }
+
+    private fun <T: Comparable<T>> insertSorted(items: MutableList<T>, item: T){
+        val index = items.binarySearch(item)
+        if(index < 0){
+            items.add(-(index + 1), item)
+        }
+        else{
+            items.add(index, item)
+        }
     }
 }
