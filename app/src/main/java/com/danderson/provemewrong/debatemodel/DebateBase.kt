@@ -12,14 +12,6 @@ import java.util.*
  */
 object DebateBase {
     val formatter: SimpleDateFormat = SimpleDateFormat("EEE MMM dd, HH:mm", Locale.US)
-
-    /**
-     * Constants for contacts.
-     *      SENT     -> contact request has been sent by the current user but not yet accepted by the receiver
-     *      RECEIVED -> contact request has been received by the current user, but they have not yet accepted it
-     *      ACCEPTED -> contact request has been accepted by recipient
-     */
-
     private var debates: ArrayList<Debate> = ArrayList()
     private val database = FirebaseDatabase.getInstance()
 
@@ -187,49 +179,54 @@ object DebateBase {
         }
     }
 
-    fun getDebates(user:String, adapter:RecyclerView.Adapter<*>? = null): MutableList<Debate>{
+    fun getDebates(user:String, adapter:RecyclerView.Adapter<*>): MutableList<Debate>{
         val debates = mutableListOf<Debate>()
         val userDebateReference = database.getReference("/users/$user/debates")
-        val userDebateChangeListener = object: ValueEventListener{
-
-            override fun onCancelled(dbError: DatabaseError) {
+        userDebateReference.addChildEventListener(object: ChildEventListener{
+            override fun onCancelled(dbError: DatabaseError?) {
 
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for(child in dataSnapshot.children){
-
-                    val key = child.key
-                    val debateReference = database.getReference("/debates/$key")
-                    debateReference.addListenerForSingleValueEvent(object: ValueEventListener{
-                        override fun onCancelled(dbError: DatabaseError) {
-
-                        }
-
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val topic = dataSnapshot.child("topic").getValue(String::class.java)!!
-                            val category = dataSnapshot.child("category").getValue(String::class.java)!!
-                            val turnBased = dataSnapshot.child("turnBased").getValue(Boolean::class.java)!!
-
-                            val debate = if(dataSnapshot.child("date").exists()){
-                                val date = dataSnapshot.child("date").getValue(String::class.java)!!
-                                TimedDebate(topic, category, turnBased, date)
-                            } else{
-                                Debate(topic, category, turnBased)
-                            }
-                            debate.id = key
-                            debate.moderator = if(dataSnapshot.child("moderator").exists())
-                                                    dataSnapshot.child("moderator").getValue(String::class.java)
-                                                else null
-                            debates.add(debate)
-                            adapter?.notifyDataSetChanged()
-                        }
-                    })
-                }
+            override fun onChildMoved(child: DataSnapshot, p1: String?) {
+                adapter.notifyDataSetChanged()
             }
 
-        }
-        userDebateReference.addListenerForSingleValueEvent(userDebateChangeListener)
+            override fun onChildChanged(child: DataSnapshot, p1: String?) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onChildAdded(child: DataSnapshot, p1: String?) {
+                val key = child.key
+                Log.i("KEY", key)
+                val debateReference = database.getReference("/debates/$key")
+                debateReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(dbError: DatabaseError) {
+                    }
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val topic = dataSnapshot.child("topic").getValue(String::class.java)!!
+                        val category = dataSnapshot.child("category").getValue(String::class.java)!!
+                        val turnBased = dataSnapshot.child("turnBased").getValue(Boolean::class.java)!!
+                        val debate = if (dataSnapshot.child("date").exists()) {
+                            val date = dataSnapshot.child("date").getValue(String::class.java)!!
+                            TimedDebate(topic, category, turnBased, date)
+                        } else {
+                            Debate(topic, category, turnBased)
+                        }
+                        debate.id = key
+                        debate.moderator = if (dataSnapshot.child("moderator").exists())
+                            dataSnapshot.child("moderator").getValue(String::class.java)
+                        else null
+                        debates.add(debate)
+                        adapter.notifyDataSetChanged()
+                    }
+                })
+            }
+
+            override fun onChildRemoved(child: DataSnapshot) {
+                adapter.notifyDataSetChanged()
+            }
+
+        })
         return debates
     }
 

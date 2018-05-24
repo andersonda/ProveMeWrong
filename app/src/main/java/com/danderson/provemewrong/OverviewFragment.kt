@@ -32,7 +32,7 @@ class OverviewFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+
         val v = inflater.inflate(R.layout.fragment_overview, container, false)
         val debates = v.findViewById<RecyclerView>(R.id.recycler_view_debates)
         val fab = v.findViewById<FloatingActionButton>(R.id.floatingActionButton)
@@ -54,19 +54,12 @@ class OverviewFragment : Fragment() {
         var debates = DebateBase.getDebates(FirebaseAuth.getInstance().currentUser!!.uid, this as RecyclerView.Adapter<*>)
 
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-            var topic: TextView
-            var category: TextView
-            var participants: RecyclerView
-            var time: TextView
-            var end: TextView
+            var topic: TextView = itemView.findViewById(R.id.card_topic)
+            var category: TextView = itemView.findViewById(R.id.card_category)
+            var participants: RecyclerView = itemView.findViewById(R.id.card_participants)
+            var time: TextView = itemView.findViewById(R.id.card_time)
+            var end: TextView = itemView.findViewById(R.id.card_expiration)
 
-            init {
-                topic = itemView.findViewById(R.id.card_topic)
-                category = itemView.findViewById(R.id.card_category)
-                participants = itemView.findViewById(R.id.card_participants)
-                time = itemView.findViewById(R.id.card_time)
-                end = itemView.findViewById(R.id.card_expiration)
-            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
