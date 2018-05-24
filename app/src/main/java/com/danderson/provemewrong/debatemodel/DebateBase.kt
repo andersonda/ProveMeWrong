@@ -62,9 +62,11 @@ object DebateBase {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // add contacts entry for sender
                 if(!dataSnapshot.child("$uid/${child.key}").exists()){
                     contactReference.child("$uid/${child.key}").setValue(Contact.ContactStatus.SENT)
                 }
+                // add contacts entry for receiver
                 if(!dataSnapshot.child("${child.key}/$uid").exists()){
                     contactReference.child("${child.key}/$uid").setValue(Contact.ContactStatus.RECEIVED)
                 }
