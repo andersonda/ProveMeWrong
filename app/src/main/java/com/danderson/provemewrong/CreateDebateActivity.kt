@@ -77,7 +77,7 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
                         .setTitle(R.string.submit_debate)
                         .setNegativeButton(R.string.no, {_,_ -> })
                         .setPositiveButton(R.string.yes,{_,_ ->
-                            DebateBase.addDebate(debate!!, FirebaseAuth.getInstance().currentUser!!)
+                            DebateBase.addDebate(debate!!)
                             startActivity(Intent(this, OverviewActivity::class.java))
                             finish()
                         })

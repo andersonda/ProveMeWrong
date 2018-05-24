@@ -3,7 +3,6 @@ package com.danderson.provemewrong.debatemodel
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.danderson.provemewrong.adapters.ContactAdapter
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -178,7 +177,7 @@ object DebateBase {
         return contact
     }
 
-    fun addDebate(debate: Debate, user:FirebaseUser){
+    fun addDebate(debate: Debate){
         debates.add(debate)
         val debateReference = database.getReference("/debates/").push()
         debateReference.setValue(debate)
@@ -188,9 +187,9 @@ object DebateBase {
         }
     }
 
-    fun getDebates(user:FirebaseUser, adapter:RecyclerView.Adapter<*>? = null): MutableList<Debate>{
+    fun getDebates(user:String, adapter:RecyclerView.Adapter<*>? = null): MutableList<Debate>{
         val debates = mutableListOf<Debate>()
-        val userDebateReference = database.getReference("/users/${user.uid}/debates")
+        val userDebateReference = database.getReference("/users/$user/debates")
         val userDebateChangeListener = object: ValueEventListener{
 
             override fun onCancelled(dbError: DatabaseError) {
@@ -208,12 +207,11 @@ object DebateBase {
                         }
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            var debate: Debate? = null
                             val topic = dataSnapshot.child("topic").getValue(String::class.java)!!
                             val category = dataSnapshot.child("category").getValue(String::class.java)!!
                             val turnBased = dataSnapshot.child("turnBased").getValue(Boolean::class.java)!!
 
-                            debate = if(dataSnapshot.child("date").exists()){
+                            val debate = if(dataSnapshot.child("date").exists()){
                                 val date = dataSnapshot.child("date").getValue(String::class.java)!!
                                 TimedDebate(topic, category, turnBased, date)
                             } else{

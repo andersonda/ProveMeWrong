@@ -51,7 +51,7 @@ class OverviewFragment : Fragment() {
 
     inner class DebatesAdapter: RecyclerView.Adapter<DebatesAdapter.ViewHolder>(){
 
-        var debates = DebateBase.getDebates(FirebaseAuth.getInstance().currentUser!!, this as RecyclerView.Adapter<*>)
+        var debates = DebateBase.getDebates(FirebaseAuth.getInstance().currentUser!!.uid, this as RecyclerView.Adapter<*>)
 
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var topic: TextView
