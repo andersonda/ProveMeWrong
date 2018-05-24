@@ -49,13 +49,25 @@ object DebateBase {
             }
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
-                // add contacts reference for sender
-                var contactReference = database.getReference("/contacts/$uid/${dataSnapshot.key}")
-                contactReference.setValue(Contact.ContactStatus.SENT)
+                addContact(uid, dataSnapshot)
+            }
+        })
+    }
 
-                // add contacts reference for receiver
-                contactReference = database.getReference("/contacts/${dataSnapshot.key}/$uid")
-                contactReference.setValue(Contact.ContactStatus.RECEIVED)
+    private fun addContact(uid: String, child: DataSnapshot){
+        // add contacts reference for sender
+        val contactReference = database.getReference("/contacts")
+        contactReference.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(dbError: DatabaseError?) {
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if(!dataSnapshot.child("$uid/${child.key}").exists()){
+                    contactReference.child("$uid/${child.key}").setValue(Contact.ContactStatus.SENT)
+                }
+                if(!dataSnapshot.child("${child.key}/$uid").exists()){
+                    contactReference.child("${child.key}/$uid").setValue(Contact.ContactStatus.RECEIVED)
+                }
             }
         })
     }
