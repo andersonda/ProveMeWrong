@@ -45,4 +45,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="submit_debate">Submit new debate?</string>
+    <string name="make_argument">Make an argument...</string>
 </resources>

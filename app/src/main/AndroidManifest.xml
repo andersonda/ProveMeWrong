@@ -3,9 +3,9 @@
           package="com.danderson.provemewrong">
 
     <!-- Include following permission if you load images from Internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Include following permission if you want to cache images on SD card -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -25,8 +25,12 @@
         </activity>
         <activity android:name=".AuthenticationActivity">
         </activity>
-        <activity android:name=".CreateDebateActivity" android:parentActivityName=".OverviewActivity"
-            android:label="New Debate">
+        <activity
+            android:name=".CreateDebateActivity"
+            android:label="New Debate"
+            android:parentActivityName=".OverviewActivity">
+        </activity>
+        <activity android:name=".DebateActivity">
         </activity>
     </application>
 
