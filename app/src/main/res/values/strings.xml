@@ -46,4 +46,8 @@
     <string name="no">No</string>
     <string name="submit_debate">Submit new debate?</string>
     <string name="make_argument">Make an argument...</string>
+    <string name="vote_to_kick">Vote to Kick</string>
+    <string name="view_profile">View Profile</string>
+    <string name="add_to_contacts">Add to Contacts</string>
+    <string name="kick_user">Kick User</string>
 </resources>
