@@ -43,3 +43,5 @@ app/google-services\.json
 /captures
 .externalNativeBuild
 \.idea/assetWizardSettings\.xml
+
+\.idea/misc\.xml
