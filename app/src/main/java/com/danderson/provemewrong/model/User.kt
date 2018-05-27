@@ -1,6 +1,12 @@
 package com.danderson.provemewrong.model
 
-open class User(var email: String = "", var displayName: String = "", var imageURL: String = "", var id: String = ""): Comparable<User>{
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
+
+open class User(var email: String = "", var displayName: String = "", var imageURL: String = "",
+                var id: String = ""): Comparable<User>, Serializable{
+
     var debates = mutableMapOf<String, Boolean>()
 
     override fun equals(other: Any?): Boolean {
@@ -22,5 +28,14 @@ open class User(var email: String = "", var displayName: String = "", var imageU
         else{
             thisParts.last().compareTo(otherParts.last())
         }
+    }
+
+    override fun hashCode(): Int {
+        var result = email.hashCode()
+        result = 31 * result + displayName.hashCode()
+        result = 31 * result + imageURL.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + debates.hashCode()
+        return result
     }
 }

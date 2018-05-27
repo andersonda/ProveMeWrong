@@ -19,6 +19,9 @@ import java.util.*
 
 class DebatesAdapter(val context: Context): RecyclerView.Adapter<DebatesAdapter.ViewHolder>(){
 
+    val EXTRA_DEBATE = "extra_debate"
+    val EXTRA_USER = "extra_user"
+
     var debates = DebateBase.getDebates(FirebaseAuth.getInstance().currentUser!!.uid, this as RecyclerView.Adapter<*>)
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -54,6 +57,8 @@ class DebatesAdapter(val context: Context): RecyclerView.Adapter<DebatesAdapter.
 
         holder.itemView.setOnClickListener{
             val intent = Intent(context, DebateActivity::class.java)
+            intent.putExtra(EXTRA_DEBATE, debate)
+            intent.putExtra(EXTRA_USER, adapter.users.find{it.id == FirebaseAuth.getInstance().currentUser!!.uid})
             context.startActivity(intent)
         }
     }
