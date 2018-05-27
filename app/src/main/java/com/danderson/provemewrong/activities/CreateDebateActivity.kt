@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,15 +8,18 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
-import com.danderson.provemewrong.debatemodel.Debate
-import com.danderson.provemewrong.debatemodel.DebateBase
-import com.danderson.provemewrong.debatemodel.TimedDebate
-import com.danderson.provemewrong.debatemodel.User
-import com.google.firebase.auth.FirebaseAuth
+import com.danderson.provemewrong.fragments.AddParticipantsFragment
+import com.danderson.provemewrong.fragments.CreateDebateFragment
+import com.danderson.provemewrong.Navigation
+import com.danderson.provemewrong.R
+import com.danderson.provemewrong.model.Debate
+import com.danderson.provemewrong.model.DebateBase
+import com.danderson.provemewrong.model.TimedDebate
+import com.danderson.provemewrong.model.User
 import kotlinx.android.synthetic.main.activity_create_debate.*
 
 class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragment.DebateCreation,
-        AddParticipantsFragment.AddParticipants{
+        AddParticipantsFragment.AddParticipants {
 
     var debate: Debate? = null
 
@@ -54,8 +57,8 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
             0 -> {
                AlertDialog.Builder(this)
                         .setTitle(R.string.cancel_debate_creation)
-                        .setNegativeButton(R.string.no, {_,_ -> })
-                        .setPositiveButton(R.string.yes,{_,_ ->
+                        .setNegativeButton(R.string.no, { _, _ -> })
+                        .setPositiveButton(R.string.yes,{ _, _ ->
                             startActivity(Intent(this, OverviewActivity::class.java))
                             finish()
                         })
@@ -75,8 +78,8 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
             1 -> {
                 AlertDialog.Builder(this)
                         .setTitle(R.string.submit_debate)
-                        .setNegativeButton(R.string.no, {_,_ -> })
-                        .setPositiveButton(R.string.yes,{_,_ ->
+                        .setNegativeButton(R.string.no, { _, _ -> })
+                        .setPositiveButton(R.string.yes,{ _, _ ->
                             DebateBase.addDebate(debate!!)
                             startActivity(Intent(this, OverviewActivity::class.java))
                             finish()

@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.danderson.provemewrong.R
-import com.danderson.provemewrong.debatemodel.DebateLine
+import com.danderson.provemewrong.model.DebateLine
 import com.squareup.picasso.Picasso
 
 class DebateLineAdapter: RecyclerView.Adapter<DebateLineAdapter.ViewHolder>() {

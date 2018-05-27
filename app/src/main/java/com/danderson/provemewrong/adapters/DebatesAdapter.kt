@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.danderson.provemewrong.DebateActivity
+import com.danderson.provemewrong.activities.DebateActivity
 import com.danderson.provemewrong.R
-import com.danderson.provemewrong.debatemodel.DebateBase
-import com.danderson.provemewrong.debatemodel.TimedDebate
-import com.danderson.provemewrong.debatemodel.User
+import com.danderson.provemewrong.model.DebateBase
+import com.danderson.provemewrong.model.TimedDebate
+import com.danderson.provemewrong.model.User
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*

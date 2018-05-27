@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.danderson.provemewrong.R
-import com.danderson.provemewrong.debatemodel.Contact
-import com.danderson.provemewrong.debatemodel.DebateBase
+import com.danderson.provemewrong.model.Contact
+import com.danderson.provemewrong.model.DebateBase
 import com.google.firebase.auth.FirebaseAuth
 
 open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Contact>(){

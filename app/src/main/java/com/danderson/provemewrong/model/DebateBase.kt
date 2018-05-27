@@ -1,4 +1,4 @@
-package com.danderson.provemewrong.debatemodel
+package com.danderson.provemewrong.model
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log

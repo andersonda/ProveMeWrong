@@ -11,7 +11,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:context=".AddParticipantsFragment"
+                tools:context=".fragments.AddParticipantsFragment"
                 tools:layout_editor_absoluteY="81dp">
 
         <LinearLayout

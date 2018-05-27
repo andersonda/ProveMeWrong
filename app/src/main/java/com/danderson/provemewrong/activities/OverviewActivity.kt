@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.danderson.provemewrong.*
+import com.danderson.provemewrong.fragments.BrowseFragment
+import com.danderson.provemewrong.fragments.OverviewFragment
+import com.danderson.provemewrong.fragments.ProfileFragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_overview.*

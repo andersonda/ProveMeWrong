@@ -1,4 +1,4 @@
-package com.danderson.provemewrong.debatemodel
+package com.danderson.provemewrong.model
 
 class Contact(email: String, displayName: String, imageURL: String, var type: ContactStatus) :
     User(email, displayName, imageURL){

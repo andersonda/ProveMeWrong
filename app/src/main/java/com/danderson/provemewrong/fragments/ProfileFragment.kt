@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.fragments
 
 
 import android.os.Bundle
@@ -10,8 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.ContactAdapter
-import com.danderson.provemewrong.debatemodel.DebateBase
+import com.danderson.provemewrong.model.DebateBase
 import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
@@ -59,7 +60,7 @@ class ProfileFragment : Fragment() {
             val dialog = AlertDialog.Builder(context!!)
                     .setTitle(R.string.dialog_add_contact)
                     .setNegativeButton(R.string.cancel_request, { _, _ -> })
-                    .setPositiveButton(R.string.send,{_,_ ->
+                    .setPositiveButton(R.string.send,{ _, _ ->
                         DebateBase.addContact(args.getString(ARG_UID), emailText.text.toString())
                     })
                     .setView(dialogView)
@@ -76,7 +77,7 @@ class ProfileFragment : Fragment() {
         const val ARG_UID = "profile_user_id"
 
         @JvmStatic
-        fun newInstance(userEmail: String, userName: String, userPhoto: String, uid: String): ProfileFragment{
+        fun newInstance(userEmail: String, userName: String, userPhoto: String, uid: String): ProfileFragment {
             val args = Bundle()
             args.putString(ARG_EMAIL, userEmail)
             args.putString(ARG_DISPLAY, userName)

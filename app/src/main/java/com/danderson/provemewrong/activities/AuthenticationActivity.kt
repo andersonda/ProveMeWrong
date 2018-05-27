@@ -1,14 +1,14 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.danderson.provemewrong.debatemodel.User
+import com.danderson.provemewrong.R
+import com.danderson.provemewrong.model.User
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.firebase.ui.auth.ResultCodes
-import com.google.firebase.auth.AdditionalUserInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.danderson.provemewrong.R
-import com.danderson.provemewrong.debatemodel.User
+import com.danderson.provemewrong.model.User
 import com.squareup.picasso.Picasso
 
 open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {

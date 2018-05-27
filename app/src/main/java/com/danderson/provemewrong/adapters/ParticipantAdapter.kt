@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.danderson.provemewrong.R
-import com.danderson.provemewrong.debatemodel.User
+import com.danderson.provemewrong.model.User
 
 
 class ParticipantAdapter(val creatorId: String): UserAdapter<User>() {

@@ -1,4 +1,4 @@
-package com.danderson.provemewrong.debatemodel
+package com.danderson.provemewrong.model
 
 import com.google.firebase.database.Exclude
 

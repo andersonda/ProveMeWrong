@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".OverviewActivity"
+            android:name=".activities.OverviewActivity"
             android:label="My Debates">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,14 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AuthenticationActivity">
+        <activity android:name=".activities.AuthenticationActivity">
         </activity>
         <activity
-            android:name=".CreateDebateActivity"
+            android:name=".activities.CreateDebateActivity"
             android:label="New Debate"
-            android:parentActivityName=".OverviewActivity">
+            android:parentActivityName=".activities.OverviewActivity">
         </activity>
-        <activity android:name=".DebateActivity">
+        <activity android:name=".activities.DebateActivity">
         </activity>
     </application>
 

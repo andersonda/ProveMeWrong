@@ -1,4 +1,4 @@
-package com.danderson.provemewrong.debatemodel
+package com.danderson.provemewrong.model
 
 open class User(var email: String = "", var displayName: String = "", var imageURL: String = "", var id: String = ""): Comparable<User>{
     var debates = mutableMapOf<String, Boolean>()

@@ -1,4 +1,4 @@
-package com.danderson.provemewrong
+package com.danderson.provemewrong.fragments
 
 
 
@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.danderson.provemewrong.R
+import com.danderson.provemewrong.activities.CreateDebateActivity
 import com.danderson.provemewrong.adapters.DebatesAdapter
 
 class OverviewFragment : Fragment() {
