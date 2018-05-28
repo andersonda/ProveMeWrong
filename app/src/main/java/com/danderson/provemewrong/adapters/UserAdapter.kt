@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.graphics.drawable.BitmapDrawable
-
+import android.util.Log
 
 
 open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
@@ -37,7 +37,12 @@ open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
         holder.name.text = user.displayName
-        val default = TextDrawable.builder().buildRound("${user.displayName[0]}", ColorGenerator.MATERIAL.getColor(user.hashCode()))
+        val default = TextDrawable.builder()
+                .beginConfig()
+                    .width(64)
+                    .height(64)
+                .endConfig()
+                .buildRound("${user.displayName[0]}", ColorGenerator.MATERIAL.getColor(user.hashCode()))
 
         Picasso.get()
                 .load(user.imageURL)

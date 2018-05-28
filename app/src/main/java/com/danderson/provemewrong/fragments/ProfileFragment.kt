@@ -8,6 +8,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,13 +39,18 @@ class ProfileFragment : Fragment() {
 
         email.text = user.email
         name.text = user.displayName
-        val default = TextDrawable.builder().buildRound("${name.text[0]}", ColorGenerator.MATERIAL.getColor(email.hashCode()))
+        val default = TextDrawable.builder()
+                .beginConfig()
+                    .width(512)
+                    .height(512)
+                .endConfig()
+                .buildRound("${user.displayName[0]}", ColorGenerator.MATERIAL.getColor(user.hashCode()))
 
         Picasso.get()
                 .load(user.imageURL)
                 .resize(512, 512)
                 .placeholder(default)
-                .into(photo, object: Callback {
+                .into(photo, object: Callback{
                     override fun onSuccess() {
                         val imageBitmap = (photo.drawable as BitmapDrawable).bitmap
                         val imageDrawable = RoundedBitmapDrawableFactory.create(resources, imageBitmap)
