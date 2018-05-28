@@ -23,6 +23,7 @@ class DebateActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debate)
+        supportActionBar?.title = "Debate"
 
         val debate = intent.getSerializableExtra(EXTRA_DEBATE) as Debate
         val user = intent.getSerializableExtra(EXTRA_USER) as User

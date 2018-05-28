@@ -1,8 +1,10 @@
 package com.danderson.provemewrong.fragments
 
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,10 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.ContactAdapter
 import com.danderson.provemewrong.model.DebateBase
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class ProfileFragment : Fragment() {
 
@@ -29,10 +35,25 @@ class ProfileFragment : Fragment() {
         val args = arguments!!
         email.text = args.getString(ARG_EMAIL)
         name.text = args.getString(ARG_DISPLAY)
+        val default = TextDrawable.builder().buildRound("${name.text[0]}", ColorGenerator.MATERIAL.getColor(email.hashCode()))
+
         Picasso.get()
                 .load(args.getString(ARG_IMAGE))
                 .resize(512, 512)
-                .into(photo)
+                .placeholder(default)
+                .into(photo, object: Callback {
+                    override fun onSuccess() {
+                        val imageBitmap = (photo.drawable as BitmapDrawable).bitmap
+                        val imageDrawable = RoundedBitmapDrawableFactory.create(resources, imageBitmap)
+                        imageDrawable.isCircular = true
+                        imageDrawable.cornerRadius = Math.max(imageBitmap.width, imageBitmap.height) / 2.0f
+                        photo.setImageDrawable(imageDrawable)
+                    }
+
+                    override fun onError(e: Exception?) {
+                        photo.setImageDrawable(default)
+                    }
+                })
 
         // layout items for contacts card
         val contactsAdapter = ContactAdapter(false, context!!)

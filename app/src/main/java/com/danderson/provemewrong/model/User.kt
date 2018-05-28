@@ -1,7 +1,5 @@
 package com.danderson.provemewrong.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import java.io.Serializable
 
 open class User(var email: String = "", var displayName: String = "", var imageURL: String = "",
@@ -31,11 +29,6 @@ open class User(var email: String = "", var displayName: String = "", var imageU
     }
 
     override fun hashCode(): Int {
-        var result = email.hashCode()
-        result = 31 * result + displayName.hashCode()
-        result = 31 * result + imageURL.hashCode()
-        result = 31 * result + id.hashCode()
-        result = 31 * result + debates.hashCode()
-        return result
+        return email.hashCode()
     }
 }

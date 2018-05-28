@@ -7,9 +7,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.model.User
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.graphics.drawable.BitmapDrawable
+
+
 
 open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
 
@@ -29,11 +37,25 @@ open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
         holder.name.text = user.displayName
+        val default = TextDrawable.builder().buildRound("${user.displayName[0]}", ColorGenerator.MATERIAL.getColor(user.hashCode()))
+
         Picasso.get()
                 .load(user.imageURL)
                 .resize(64, 64)
-                .placeholder(R.drawable.ic_profile)
-                .into(holder.picture)
+                .placeholder(default)
+                .into(holder.picture, object: Callback{
+                    override fun onSuccess() {
+                        val imageBitmap = (holder.picture.drawable as BitmapDrawable).bitmap
+                        val imageDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.resources, imageBitmap)
+                        imageDrawable.isCircular = true
+                        imageDrawable.cornerRadius = Math.max(imageBitmap.width, imageBitmap.height) / 2.0f
+                        holder.picture.setImageDrawable(imageDrawable)
+                    }
+
+                    override fun onError(e: Exception?) {
+                        holder.picture.setImageDrawable(default)
+                    }
+                })
     }
 
     override fun getItemCount(): Int {
