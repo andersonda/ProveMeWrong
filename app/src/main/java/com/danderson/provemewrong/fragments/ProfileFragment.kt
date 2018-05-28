@@ -17,6 +17,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.ContactAdapter
 import com.danderson.provemewrong.model.DebateBase
+import com.danderson.provemewrong.model.User
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
@@ -33,12 +34,14 @@ class ProfileFragment : Fragment() {
         val name = view.findViewById<TextView>(R.id.name)
         val photo = view.findViewById<ImageView>(R.id.profile_picture)
         val args = arguments!!
-        email.text = args.getString(ARG_EMAIL)
-        name.text = args.getString(ARG_DISPLAY)
+        val user = args.getSerializable(ARG_USER) as User
+
+        email.text = user.email
+        name.text = user.displayName
         val default = TextDrawable.builder().buildRound("${name.text[0]}", ColorGenerator.MATERIAL.getColor(email.hashCode()))
 
         Picasso.get()
-                .load(args.getString(ARG_IMAGE))
+                .load(user.imageURL)
                 .resize(512, 512)
                 .placeholder(default)
                 .into(photo, object: Callback {
@@ -59,7 +62,7 @@ class ProfileFragment : Fragment() {
         val contactsAdapter = ContactAdapter(false, context!!)
         val pendingAdapter = ContactAdapter(true, context!!)
 
-        val contacts = DebateBase.getContactsForUser(args.getString(ARG_UID), contactsAdapter, pendingAdapter)
+        val contacts = DebateBase.getContactsForUser(user.id, contactsAdapter, pendingAdapter)
         contactsAdapter.users = contacts.accepted
         pendingAdapter.users = contacts.pending
 
@@ -82,7 +85,7 @@ class ProfileFragment : Fragment() {
                     .setTitle(R.string.dialog_add_contact)
                     .setNegativeButton(R.string.cancel_request, { _, _ -> })
                     .setPositiveButton(R.string.send,{ _, _ ->
-                        DebateBase.addContact(args.getString(ARG_UID), emailText.text.toString())
+                        DebateBase.addContact(user.id, emailText.text.toString())
                     })
                     .setView(dialogView)
                     .show()
@@ -92,18 +95,12 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_EMAIL = "profile_email"
-        const val ARG_DISPLAY = "profile_display"
-        const val ARG_IMAGE = "profile_image_url"
-        const val ARG_UID = "profile_user_id"
+        const val ARG_USER = "user"
 
         @JvmStatic
-        fun newInstance(userEmail: String, userName: String, userPhoto: String, uid: String): ProfileFragment {
+        fun newInstance(user: User): ProfileFragment {
             val args = Bundle()
-            args.putString(ARG_EMAIL, userEmail)
-            args.putString(ARG_DISPLAY, userName)
-            args.putString(ARG_IMAGE, userPhoto)
-            args.putString(ARG_UID, uid)
+            args.putSerializable(ARG_USER, user)
             val fragment = ProfileFragment()
             fragment.arguments = args
             return fragment

@@ -13,13 +13,14 @@ import com.danderson.provemewrong.*
 import com.danderson.provemewrong.fragments.BrowseFragment
 import com.danderson.provemewrong.fragments.OverviewFragment
 import com.danderson.provemewrong.fragments.ProfileFragment
+import com.danderson.provemewrong.model.User
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_overview.*
 
 class OverviewActivity : AppCompatActivity() {
 
-    val currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUser = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,8 +102,8 @@ class OverviewActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> {
-                    ProfileFragment.newInstance(currentUser!!.email!!, currentUser.displayName!!,
-                            currentUser.photoUrl.toString(), currentUser.uid)
+                    ProfileFragment.newInstance(User(currentUser!!.email!!, currentUser.displayName!!,
+                            currentUser.photoUrl.toString(), currentUser.uid))
                 }
                 1 -> OverviewFragment()
                 2 -> BrowseFragment()
