@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import com.danderson.provemewrong.R
@@ -50,5 +53,18 @@ class DebateActivity: AppCompatActivity() {
             recycler.smoothScrollToPosition(adapter.itemCount - 1)
             message.text.clear()
         }
+        send.isEnabled = false
+        send.visibility = View.INVISIBLE
+
+        message.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                send.isEnabled = !s.toString().trim().isEmpty()
+                send.visibility = if(!s.toString().trim().isEmpty()) View.VISIBLE else View.INVISIBLE
+            }
+        })
     }
 }
