@@ -34,7 +34,11 @@ class AddParticipantsFragment : Fragment(){
 
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val participants: RecyclerView = v.findViewById(R.id.recycler_participants)
-        participants.layoutManager = LinearLayoutManager(activity)
+        participants.layoutManager = object: LinearLayoutManager(activity){
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                return true
+            }
+        }
         val participantAdapter = ParticipantAdapter(uid)
         participantAdapter.users = DebateBase.getUser(uid)
         participants.adapter = participantAdapter
@@ -42,15 +46,15 @@ class AddParticipantsFragment : Fragment(){
 
         val contacts: RecyclerView = v.findViewById(R.id.recycler_contacts)
         contacts.layoutManager = LinearLayoutManager(activity)
-        val contactAdapter = object: ContactAdapter(false, context!!){
+        val contactAdapter = object: ContactAdapter(false){
 
             override fun onBindViewHolder(holder: UserAdapter<Contact>.ViewHolder, position: Int) {
                 (holder as ContactAdapter.ViewHolder).options.visibility = View.GONE
                 holder.itemView.setOnClickListener{
-                    val user = users[position] as User
+                    val user = users[holder.adapterPosition] as User
                     if(!participantAdapter.users.contains(user)){
                         participantAdapter.users.add(user)
-                        participantAdapter.notifyDataSetChanged()
+                        participantAdapter.notifyItemInserted(participantAdapter.itemCount - 1)
                     }
                 }
                 super.onBindViewHolder(holder, position)

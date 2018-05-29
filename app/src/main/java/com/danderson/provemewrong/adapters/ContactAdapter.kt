@@ -11,7 +11,7 @@ import com.danderson.provemewrong.model.Contact
 import com.danderson.provemewrong.model.DebateBase
 import com.google.firebase.auth.FirebaseAuth
 
-open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapter<Contact>(){
+open class ContactAdapter(val pending: Boolean): UserAdapter<Contact>(){
 
     open inner class ViewHolder(itemView: View): UserAdapter<Contact>.ViewHolder(itemView){
         var options: ImageButton = itemView.findViewById(R.id.contact_options)
@@ -30,9 +30,9 @@ open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapt
         if(pending){
             val display = holder.name.text.toString()
             val displayWithSuffix =  if(type == Contact.ContactStatus.SENT)
-                                        String.format(context.getString(R.string.request_sent), display)
+                                        String.format(holder.itemView.context.getString(R.string.request_sent), display)
                                      else
-                                        String.format(context.getString(R.string.request_received), display)
+                                        String.format(holder.itemView.context.getString(R.string.request_received), display)
 
             holder.name.text = displayWithSuffix
         }
@@ -45,7 +45,7 @@ open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapt
     }
 
     private fun createPopup(holder: UserAdapter<Contact>.ViewHolder, position: Int, type: Contact.ContactStatus): PopupMenu{
-        val popup = PopupMenu(context, (holder as ViewHolder).options)
+        val popup = PopupMenu(holder.itemView.context, (holder as ViewHolder).options)
         when(type){
             Contact.ContactStatus.SENT -> {
                 popup.menuInflater.inflate(R.menu.popup_sent_contact, popup.menu)
@@ -61,7 +61,7 @@ open class ContactAdapter(val pending: Boolean, val context: Context): UserAdapt
 
         popup.setOnMenuItemClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser!!.uid
-            val contact = users[position].id
+            val contact = users[holder.adapterPosition].id
             when(it.itemId){
                 R.id.cancel_request -> {
                     DebateBase.removeContact(currentUser, contact)
