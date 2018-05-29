@@ -277,6 +277,10 @@ object DebateBase {
         return participants
     }
 
+    fun addDebateLine(debate: Debate, debateLine: DebateLine){
+        database.getReference("/debates/${debate.id}/lines").push().setValue(debateLine)
+    }
+
     fun getDebateCategories(): List<String>{
         val categories = mutableListOf<String>()
         val reference = database.getReference("/debate-categories")

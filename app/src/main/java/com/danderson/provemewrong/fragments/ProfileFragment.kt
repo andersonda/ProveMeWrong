@@ -19,8 +19,11 @@ import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.ContactAdapter
 import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.User
+import com.danderson.provemewrong.utils.Animations
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import java.lang.Exception
 
 class ProfileFragment : Fragment() {
@@ -72,24 +75,17 @@ class ProfileFragment : Fragment() {
         contactsAdapter.users = contacts.accepted
         pendingAdapter.users = contacts.pending
 
-        val pendingLayoutManager = object: LinearLayoutManager(activity){
-            override fun supportsPredictiveItemAnimations(): Boolean {
-                return true
-            }
-        }
+        val pendingLayoutManager = LinearLayoutManager(activity)
         val pendingContacts = view.findViewById<RecyclerView>(R.id.recycler_pending_contacts)
         pendingContacts.adapter = pendingAdapter
         pendingContacts.layoutManager = pendingLayoutManager
+        pendingContacts.itemAnimator = Animations.getUserAnimator()
 
-        val currentLayoutManager = object: LinearLayoutManager(activity){
-            override fun supportsPredictiveItemAnimations(): Boolean {
-                return true
-            }
-        }
+        val currentLayoutManager = LinearLayoutManager(activity)
         val currentContacts = view.findViewById<RecyclerView>(R.id.recycler_contacts)
         currentContacts.adapter = contactsAdapter
         currentContacts.layoutManager = currentLayoutManager
-
+        currentContacts.itemAnimator = Animations.getUserAnimator()
 
         val addContact = view.findViewById<ImageButton>(R.id.add_contact)
         addContact.setOnClickListener{

@@ -12,6 +12,7 @@ import com.danderson.provemewrong.model.Debate
 import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.DebateLine
 import com.danderson.provemewrong.model.User
+import com.danderson.provemewrong.utils.Animations
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
@@ -34,6 +35,7 @@ class DebateActivity: AppCompatActivity() {
         recycler.layoutManager = layout
         val adapter = DebateLineAdapter()
         recycler.adapter = adapter
+        recycler.itemAnimator = Animations.getDebateLineAnimator()
 
         val send = findViewById<ImageButton>(R.id.send_message)
         val message = findViewById<EditText>(R.id.message_text)
@@ -43,7 +45,8 @@ class DebateActivity: AppCompatActivity() {
                     user, message.text.toString(), DebateBase.formatter.format(Date())
             )
             adapter.debateLines.add(debateLine)
-            adapter.notifyDataSetChanged()
+            DebateBase.addDebateLine(debate, debateLine)
+            adapter.notifyItemInserted(adapter.itemCount - 1)
             recycler.smoothScrollToPosition(adapter.itemCount - 1)
             message.text.clear()
         }

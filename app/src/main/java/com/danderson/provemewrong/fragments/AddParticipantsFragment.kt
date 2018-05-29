@@ -17,6 +17,7 @@ import com.danderson.provemewrong.adapters.UserAdapter
 import com.danderson.provemewrong.model.Contact
 import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.User
+import com.danderson.provemewrong.utils.Animations
 import com.google.firebase.auth.FirebaseAuth
 
 class AddParticipantsFragment : Fragment(){
@@ -34,14 +35,11 @@ class AddParticipantsFragment : Fragment(){
 
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val participants: RecyclerView = v.findViewById(R.id.recycler_participants)
-        participants.layoutManager = object: LinearLayoutManager(activity){
-            override fun supportsPredictiveItemAnimations(): Boolean {
-                return true
-            }
-        }
+        participants.layoutManager = LinearLayoutManager(activity)
         val participantAdapter = ParticipantAdapter(uid)
         participantAdapter.users = DebateBase.getUser(uid)
         participants.adapter = participantAdapter
+        participants.itemAnimator = Animations.getUserAnimator()
 
 
         val contacts: RecyclerView = v.findViewById(R.id.recycler_contacts)
