@@ -105,6 +105,7 @@ object DebateBase {
             }
 
             override fun onChildMoved(child: DataSnapshot, p1: String?) {
+                Log.i("CHILDMOVED", "child_moved")
             }
 
             /**
@@ -119,10 +120,11 @@ object DebateBase {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val contact = getContact(child, dataSnapshot)
                         if(contacts.pending.contains(contact)){
+                            val pendingIndex = contacts.pending.indexOf(contact)
                             contacts.pending.remove(contact)
                             insertSorted(contacts.accepted, contact)
-                            pendingAdapter?.notifyDataSetChanged()
-                            contactsAdapter.notifyDataSetChanged()
+                            pendingAdapter?.notifyItemRemoved(pendingIndex)
+                            contactsAdapter.notifyItemInserted(contacts.accepted.indexOf(contact))
                         }
                     }
                 })
@@ -140,11 +142,11 @@ object DebateBase {
                         val contact = getContact(child, dataSnapshot)
                         if(contact.type == Contact.ContactStatus.ACCEPTED){
                             insertSorted(contacts.accepted, contact)
-                            contactsAdapter.notifyDataSetChanged()
+                            contactsAdapter.notifyItemInserted(contacts.accepted.indexOf(contact))
                         }
                         else{
                             insertSorted(contacts.pending, contact)
-                            pendingAdapter?.notifyDataSetChanged()
+                            pendingAdapter?.notifyItemInserted(contacts.pending.indexOf(contact))
                         }
                     }
                 })
@@ -161,12 +163,14 @@ object DebateBase {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val contact = getContact(child, dataSnapshot)
                         if(contacts.pending.contains(contact)){
+                            val pendingIndex = contacts.pending.indexOf(contact)
                             contacts.pending.remove(contact)
-                            pendingAdapter?.notifyDataSetChanged()
+                            pendingAdapter?.notifyItemRemoved(pendingIndex)
                         }
                         else{
+                            val acceptedIndex = contacts.accepted.indexOf(contact)
                             contacts.accepted.remove(contact)
-                            contactsAdapter.notifyDataSetChanged()
+                            contactsAdapter.notifyItemRemoved(acceptedIndex)
                         }
                     }
                 })
@@ -175,6 +179,7 @@ object DebateBase {
         return contacts
     }
 
+    @Suppress("NAME_SHADOWING")
     private fun getContact(contactType: DataSnapshot, user: DataSnapshot): Contact{
         val user = user.getValue(User::class.java)!!
         val contactType = contactType.getValue(Contact.ContactStatus::class.java)!!

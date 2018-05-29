@@ -72,12 +72,20 @@ class ProfileFragment : Fragment() {
         contactsAdapter.users = contacts.accepted
         pendingAdapter.users = contacts.pending
 
-        val pendingLayoutManager = LinearLayoutManager(activity)
+        val pendingLayoutManager = object: LinearLayoutManager(activity){
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                return true
+            }
+        }
         val pendingContacts = view.findViewById<RecyclerView>(R.id.recycler_pending_contacts)
         pendingContacts.adapter = pendingAdapter
         pendingContacts.layoutManager = pendingLayoutManager
 
-        val currentLayoutManager = LinearLayoutManager(activity)
+        val currentLayoutManager = object: LinearLayoutManager(activity){
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                return true
+            }
+        }
         val currentContacts = view.findViewById<RecyclerView>(R.id.recycler_contacts)
         currentContacts.adapter = contactsAdapter
         currentContacts.layoutManager = currentLayoutManager
