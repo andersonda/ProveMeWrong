@@ -22,7 +22,7 @@ class DebateLineAdapter: RecyclerView.Adapter<DebateLineAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_debate_line, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_incoming_debate_line, parent, false)
         return ViewHolder(v)
     }
 
