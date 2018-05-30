@@ -39,6 +39,7 @@ class DebateActivity: AppCompatActivity() {
         val adapter = DebateLineAdapter()
         recycler.adapter = adapter
         recycler.itemAnimator = Animations.getDebateLineAnimator()
+        adapter.debateLines = DebateBase.getLinesForDebate(debate, adapter)
 
         val send = findViewById<ImageButton>(R.id.send_message)
         val message = findViewById<EditText>(R.id.message_text)
@@ -47,10 +48,7 @@ class DebateActivity: AppCompatActivity() {
             val debateLine = DebateLine(
                     user, message.text.toString(), DebateBase.formatter.format(Date())
             )
-            adapter.debateLines.add(debateLine)
             DebateBase.addDebateLine(debate, debateLine)
-            adapter.notifyItemInserted(adapter.itemCount - 1)
-            recycler.smoothScrollToPosition(adapter.itemCount - 1)
             message.text.clear()
         }
         send.isEnabled = false

@@ -278,7 +278,38 @@ object DebateBase {
     }
 
     fun addDebateLine(debate: Debate, debateLine: DebateLine){
-        database.getReference("/debates/${debate.id}/lines").push().setValue(debateLine)
+        database.getReference("/debates/${debate.id}/lines").push()
+                .setValue(debateLine)
+    }
+
+    fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{
+        val lines = mutableListOf<DebateLine>()
+
+        val lineReference = database.getReference("debates/${debate.id}/lines")
+        lineReference.addChildEventListener(object : ChildEventListener{
+            override fun onCancelled(dbError: DatabaseError) {
+
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+                lines.add(dataSnapshot.getValue(DebateLine::class.java)!!)
+                adapter.notifyItemInserted(adapter.itemCount - 1)
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+
+            }
+        })
+
+        return lines
     }
 
     fun getDebateCategories(): List<String>{

@@ -14,8 +14,8 @@ object Animations {
 
     fun getDebateLineAnimator(): RecyclerView.ItemAnimator{
         val animator = SlideInLeftAnimator()
-        animator.addDuration = 500
-        animator.removeDuration = 500
+        animator.addDuration = 250
+        animator.removeDuration = 250
         return animator
     }
 }
