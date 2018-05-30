@@ -30,7 +30,8 @@
             android:label="New Debate"
             android:parentActivityName=".activities.OverviewActivity">
         </activity>
-        <activity android:name=".activities.DebateActivity">
+        <activity android:name=".activities.DebateActivity"
+            android:parentActivityName=".activities.OverviewActivity">
         </activity>
     </application>
 
