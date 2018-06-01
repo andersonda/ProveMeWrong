@@ -283,6 +283,7 @@ object DebateBase {
     }
 
     fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{
+
         val lines = mutableListOf<DebateLine>()
 
         val lineReference = database.getReference("debates/${debate.id}/lines")

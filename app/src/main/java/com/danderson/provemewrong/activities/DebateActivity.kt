@@ -37,9 +37,21 @@ class DebateActivity: AppCompatActivity() {
         layout.stackFromEnd = true
         recycler.layoutManager = layout
         val adapter = DebateLineAdapter()
+        adapter.debateLines = DebateBase.getLinesForDebate(debate, adapter)
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                val messageCount = adapter.itemCount
+                val lastVisiblePosition = layout.findLastCompletelyVisibleItemPosition()
+                // If the recycler view is initially being loaded or the user is at the bottom of the list, scroll
+                // to the bottom of the list to show the newly added message.
+                if (lastVisiblePosition == -1 || positionStart >= messageCount - 1 && lastVisiblePosition == positionStart - 1) {
+                    recycler.scrollToPosition(positionStart)
+                }
+            }
+        })
         recycler.adapter = adapter
         recycler.itemAnimator = Animations.getDebateLineAnimator()
-        adapter.debateLines = DebateBase.getLinesForDebate(debate, adapter)
 
         val send = findViewById<ImageButton>(R.id.send_message)
         val message = findViewById<EditText>(R.id.message_text)

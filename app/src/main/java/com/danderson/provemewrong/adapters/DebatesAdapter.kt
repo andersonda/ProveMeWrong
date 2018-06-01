@@ -2,6 +2,7 @@ package com.danderson.provemewrong.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.support.v4.view.ViewPropertyAnimatorListener
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.TimedDebate
 import com.danderson.provemewrong.model.User
 import com.google.firebase.auth.FirebaseAuth
+import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,7 +32,6 @@ class DebatesAdapter(val context: Context): RecyclerView.Adapter<DebatesAdapter.
         var participants: RecyclerView = itemView.findViewById(R.id.card_participants)
         var time: TextView = itemView.findViewById(R.id.card_time)
         var end: TextView = itemView.findViewById(R.id.card_expiration)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
