@@ -4,4 +4,17 @@ import java.io.Serializable
 
 class DebateLine(val id: String = "", val user:User = User(), val content: String = "", val time: String = ""): Serializable {
     val likedBy = mutableListOf<String>()
+
+    override fun equals(other: Any?): Boolean {
+        if(this === other)
+            return true
+        if(other !is DebateLine)
+            return false
+        // email is the only field check necessary, as emails are unique across users
+        return(this.id == other.id)
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }

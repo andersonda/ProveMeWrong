@@ -27,20 +27,22 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
     val EXTRA_DEBATE = "extra_debate"
     val EXTRA_USER = "extra_user"
 
+    private var user: User? = null
+    private var debate: Debate? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debate)
         supportActionBar?.title = "Debate"
-
-        val debate = intent.getSerializableExtra(EXTRA_DEBATE) as Debate
-        val user = intent.getSerializableExtra(EXTRA_USER) as User
+        user = intent.getSerializableExtra(EXTRA_USER) as User
+        debate = intent.getSerializableExtra(EXTRA_DEBATE) as Debate
 
         val recycler = findViewById<RecyclerView>(R.id.recycler_debate_lines)
         val layout = LinearLayoutManager(this)
         layout.stackFromEnd = true
         recycler.layoutManager = layout
         val adapter = DebateLineAdapter(this)
-        adapter.debateLines = DebateBase.getLinesForDebate(debate, adapter)
+        adapter.debateLines = DebateBase.getLinesForDebate(debate!!, adapter)
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver(){
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
@@ -61,9 +63,9 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
 
         send.setOnClickListener {
             val debateLine = DebateLine(
-                    "", user, message.text.toString(), DebateBase.formatter.format(Date())
+                    "", user!!, message.text.toString(), DebateBase.formatter.format(Date())
             )
-            DebateBase.addDebateLine(debate, debateLine)
+            DebateBase.addDebateLine(debate!!, debateLine)
             message.text.clear()
         }
         send.isEnabled = false
@@ -94,7 +96,7 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
     }
 
     override fun onRemoveMessage(line: DebateLine) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DebateBase.removeDebateLine(debate!!, line)
     }
 
     override fun onViewProfile(line: DebateLine) {

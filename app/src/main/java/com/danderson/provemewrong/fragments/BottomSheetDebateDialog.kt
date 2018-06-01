@@ -31,21 +31,25 @@ class BottomSheetDebateDialog: BottomSheetDialogFragment(){
         val likeMessage: LinearLayout = v.findViewById(R.id.like_message)
         likeMessage.setOnClickListener {
             menuCallback!!.onLikeMessage(line)
+            dismiss()
         }
 
         val editMessage: LinearLayout = v.findViewById(R.id.edit_message)
         editMessage.setOnClickListener {
             menuCallback!!.onEditMessage(line)
+            dismiss()
         }
 
         val removeMessage: LinearLayout = v.findViewById(R.id.remove_message)
         removeMessage.setOnClickListener {
             menuCallback!!.onRemoveMessage(line)
+            dismiss()
         }
 
         val viewProfile: LinearLayout = v.findViewById(R.id.view_profile)
         viewProfile.setOnClickListener {
             menuCallback!!.onViewProfile(line)
+            dismiss()
         }
 
         // the user object is used to determine which menu options should be visible for the debate line

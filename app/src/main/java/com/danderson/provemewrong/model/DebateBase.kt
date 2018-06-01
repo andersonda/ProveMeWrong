@@ -277,10 +277,15 @@ object DebateBase {
         return participants
     }
 
+    @Suppress("NAME_SHADOWING")
     fun addDebateLine(debate: Debate, debateLine: DebateLine){
         val reference = database.getReference("/debates/${debate.id}/lines").push()
+        val debateLine = DebateLine(reference.key, debateLine.user, debateLine.content, debateLine.time)
         reference.setValue(debateLine)
-        reference.child("id").setValue(reference.key)
+    }
+
+    fun removeDebateLine(debate: Debate, debateLine: DebateLine){
+        database.getReference("/debates/${debate.id}/lines/${debateLine.id}").removeValue()
     }
 
     fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{
@@ -307,7 +312,10 @@ object DebateBase {
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-
+                val line = dataSnapshot.getValue(DebateLine::class.java)
+                val index = lines.indexOf(line)
+                lines.removeAt(index)
+                adapter.notifyItemRemoved(index)
             }
         })
 
