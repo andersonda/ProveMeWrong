@@ -3,12 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:id="@+id/like_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -22,14 +26,18 @@
             android:layout_marginStart="32dp"
             android:layout_gravity="center_vertical"
             android:text="@string/like_message"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/edit_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -43,14 +51,18 @@
             android:layout_marginStart="32dp"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_message"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/remove_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -64,14 +76,18 @@
             android:layout_marginStart="32dp"
             android:layout_gravity="center_vertical"
             android:text="@string/remove_message"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/view_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -85,6 +101,7 @@
             android:layout_marginStart="32dp"
             android:layout_gravity="center_vertical"
             android:text="@string/view_profile"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>

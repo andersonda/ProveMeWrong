@@ -278,8 +278,9 @@ object DebateBase {
     }
 
     fun addDebateLine(debate: Debate, debateLine: DebateLine){
-        database.getReference("/debates/${debate.id}/lines").push()
-                .setValue(debateLine)
+        val reference = database.getReference("/debates/${debate.id}/lines").push()
+        reference.setValue(debateLine)
+        reference.child("id").setValue(reference.key)
     }
 
     fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{

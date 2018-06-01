@@ -1,28 +1,29 @@
 package com.danderson.provemewrong.adapters
 
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.danderson.provemewrong.R
+import com.danderson.provemewrong.activities.DebateActivity
+import com.danderson.provemewrong.fragments.BottomSheetDebateDialog
 import com.danderson.provemewrong.model.DebateLine
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class DebateLineAdapter: RecyclerView.Adapter<DebateLineAdapter.ViewHolder>() {
+class DebateLineAdapter(val context: Context): RecyclerView.Adapter<DebateLineAdapter.ViewHolder>() {
 
     var debateLines = mutableListOf<DebateLine>()
+    val activity = (context as DebateActivity)
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val picture: ImageView = itemView.findViewById(R.id.profile_picture)
@@ -75,5 +76,12 @@ class DebateLineAdapter: RecyclerView.Adapter<DebateLineAdapter.ViewHolder>() {
                     }
                 })
         holder.content.text = debateLine.content
+
+        holder.itemView.setOnLongClickListener {
+            val bottomSheet = BottomSheetDebateDialog.newInstance(debateLine)
+            bottomSheet.show(activity.supportFragmentManager, bottomSheet.tag)
+
+            true
+        }
     }
 }

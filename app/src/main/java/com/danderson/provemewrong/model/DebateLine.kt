@@ -1,6 +1,7 @@
 package com.danderson.provemewrong.model
 
-class DebateLine(val user:User = User(), val content: String = "", val time: String = "") {
+import java.io.Serializable
+
+class DebateLine(val id: String = "", val user:User = User(), val content: String = "", val time: String = ""): Serializable {
     val likedBy = mutableListOf<String>()
-    val references = mutableListOf<String>()
 }

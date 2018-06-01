@@ -6,11 +6,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.DebateLineAdapter
+import com.danderson.provemewrong.fragments.BottomSheetDebateDialog
 import com.danderson.provemewrong.model.Debate
 import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.DebateLine
@@ -19,7 +22,7 @@ import com.danderson.provemewrong.utils.Animations
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
-class DebateActivity: AppCompatActivity() {
+class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMenuCallbacks {
 
     val EXTRA_DEBATE = "extra_debate"
     val EXTRA_USER = "extra_user"
@@ -36,7 +39,7 @@ class DebateActivity: AppCompatActivity() {
         val layout = LinearLayoutManager(this)
         layout.stackFromEnd = true
         recycler.layoutManager = layout
-        val adapter = DebateLineAdapter()
+        val adapter = DebateLineAdapter(this)
         adapter.debateLines = DebateBase.getLinesForDebate(debate, adapter)
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver(){
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -58,7 +61,7 @@ class DebateActivity: AppCompatActivity() {
 
         send.setOnClickListener {
             val debateLine = DebateLine(
-                    user, message.text.toString(), DebateBase.formatter.format(Date())
+                    "", user, message.text.toString(), DebateBase.formatter.format(Date())
             )
             DebateBase.addDebateLine(debate, debateLine)
             message.text.clear()
@@ -76,5 +79,25 @@ class DebateActivity: AppCompatActivity() {
                 send.visibility = if(!s.toString().trim().isEmpty()) View.VISIBLE else View.INVISIBLE
             }
         })
+
+        val toast: Toast = Toast.makeText(this, getString(R.string.tip_message_actions), Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+    }
+
+    override fun onLikeMessage(line: DebateLine) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onEditMessage(line: DebateLine) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onRemoveMessage(line: DebateLine) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onViewProfile(line: DebateLine) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

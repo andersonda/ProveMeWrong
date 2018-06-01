@@ -53,4 +53,5 @@
     <string name="edit_message">Edit Message</string>
     <string name="remove_message">Remove Message</string>
     <string name="view_profile">View Profile</string>
+    <string name="tip_message_actions">Tip: long press a debate message to access menu options</string>
 </resources>
