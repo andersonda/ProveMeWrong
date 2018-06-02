@@ -41,8 +41,7 @@ class AuthenticationActivity : AppCompatActivity() {
                 if(currentUser.metadata!!.creationTimestamp == currentUser.metadata!!.lastSignInTimestamp){
                     val reference = database.getReference("/users/${currentUser.uid}")
                     reference.setValue(User(currentUser.email!!, currentUser.displayName!!,
-                            currentUser.photoUrl.toString()))
-                    reference.child("id").setValue(currentUser.uid)
+                            currentUser.photoUrl.toString(), currentUser.uid))
                 }
                 startActivity(Intent(this, OverviewActivity::class.java))
                 return
