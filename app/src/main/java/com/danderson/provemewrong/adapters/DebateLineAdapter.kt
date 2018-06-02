@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.amulyakhare.textdrawable.TextDrawable
@@ -27,6 +29,8 @@ class DebateLineAdapter(val context: Context): RecyclerView.Adapter<DebateLineAd
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val picture: ImageView = itemView.findViewById(R.id.profile_picture)
+        val likedBy: TextView = itemView.findViewById(R.id.liked_by)
+        val likeButton: ImageButton = itemView.findViewById(R.id.like_button)
         val content: TextView = itemView.findViewById(R.id.debate_line_content)
     }
 
@@ -86,8 +90,26 @@ class DebateLineAdapter(val context: Context): RecyclerView.Adapter<DebateLineAd
         holder.itemView.setOnLongClickListener {
             val bottomSheet = BottomSheetDebateDialog.newInstance(debateLine)
             bottomSheet.show(activity.supportFragmentManager, bottomSheet.tag)
-
             true
+        }
+
+        holder.likedBy.visibility = View.GONE
+        if(debateLine.likedBy.isEmpty()){
+            holder.likeButton.visibility = View.GONE
+            holder.likeButton.isEnabled = false
+        }
+        else{
+            holder.likeButton.visibility = View.VISIBLE
+            holder.likeButton.isEnabled = true
+            holder.likedBy.text = String.format(context.getString(R.string.liked_by),
+                    debateLine.likedBy.values.joinToString())
+
+            holder.likeButton.setOnClickListener{
+                when(holder.likedBy.visibility){
+                    View.GONE -> holder.likedBy.visibility = View.VISIBLE
+                    View.VISIBLE -> holder.likedBy.visibility = View.GONE
+                }
+            }
         }
     }
 }

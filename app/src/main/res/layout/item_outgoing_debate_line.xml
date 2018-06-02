@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:animateLayoutChanges="true">
 
     <ImageView
         android:id="@+id/profile_picture"
@@ -35,13 +36,16 @@
 
     <TextView
         android:id="@+id/liked_by"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_default="wrap"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:textSize="12sp"
         tools:text="Liked by: David"
         app:layout_constraintTop_toBottomOf="@id/debate_line_content"
         app:layout_constraintRight_toLeftOf="@id/profile_picture"
-        app:layout_constraintLeft_toLeftOf="@id/guideline"/>
+        app:layout_constraintLeft_toLeftOf="@id/guideline"
+        app:layout_constraintHorizontal_bias="1"/>
 
     <Space
         android:id="@+id/space"
@@ -51,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="@id/debate_line_content"
         app:layout_constraintRight_toLeftOf="@id/profile_picture"
         app:layout_constraintLeft_toLeftOf="@id/guideline"
-        app:layout_constraintHorizontal_bias="0.95"/>
+        app:layout_constraintHorizontal_bias="1"/>
 
     <ImageButton
         android:id="@+id/like_button"
@@ -62,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@id/space"
         app:layout_constraintRight_toLeftOf="@id/profile_picture"
         app:layout_constraintLeft_toLeftOf="@id/guideline"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="1"
         android:src="@drawable/ic_thumbs_up"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"/>

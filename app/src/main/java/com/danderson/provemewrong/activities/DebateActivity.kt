@@ -87,7 +87,7 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
     }
 
     override fun onLikeMessage(line: DebateLine) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DebateBase.likeDebateLine(debate!!, line, user!!.displayName)
     }
 
     override fun onEditMessage(line: DebateLine) {

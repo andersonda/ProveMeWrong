@@ -4,7 +4,7 @@ import java.io.Serializable
 
 class DebateLine(val id: String = "", val user:User = User(), var content: String = "", val time: String = "",
                  var isEdited: Boolean = false): Serializable {
-    val likedBy = mutableListOf<String>()
+    val likedBy = mutableMapOf<String, String>()
 
     override fun equals(other: Any?): Boolean {
         if(this === other)

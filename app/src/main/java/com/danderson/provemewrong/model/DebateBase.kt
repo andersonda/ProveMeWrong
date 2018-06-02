@@ -295,6 +295,11 @@ object DebateBase {
                 .setValue(debateLine)
     }
 
+    fun likeDebateLine(debate: Debate, debateLine: DebateLine, name: String){
+        database.getReference("/debates/${debate.id}/lines/${debateLine.id}/likedBy").push()
+                .setValue(name)
+    }
+
     fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{
 
         val lines = mutableListOf<DebateLine>()
