@@ -75,7 +75,13 @@ class DebateLineAdapter(val context: Context): RecyclerView.Adapter<DebateLineAd
                         holder.picture.setImageDrawable(default)
                     }
                 })
-        holder.content.text = debateLine.content
+
+        holder.content.text = if(debateLine.isEdited)
+                                String.format(context.getString(R.string.debate_line_edited),
+                                        debateLine.content)
+                              else
+                                debateLine.content
+
 
         holder.itemView.setOnLongClickListener {
             val bottomSheet = BottomSheetDebateDialog.newInstance(debateLine)

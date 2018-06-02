@@ -2,7 +2,8 @@ package com.danderson.provemewrong.model
 
 import java.io.Serializable
 
-class DebateLine(val id: String = "", val user:User = User(), val content: String = "", val time: String = ""): Serializable {
+class DebateLine(val id: String = "", val user:User = User(), var content: String = "", val time: String = "",
+                 var isEdited: Boolean = false): Serializable {
     val likedBy = mutableListOf<String>()
 
     override fun equals(other: Any?): Boolean {

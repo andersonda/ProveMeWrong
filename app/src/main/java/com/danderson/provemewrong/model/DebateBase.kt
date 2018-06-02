@@ -288,6 +288,13 @@ object DebateBase {
         database.getReference("/debates/${debate.id}/lines/${debateLine.id}").removeValue()
     }
 
+    fun editDebateLine(debate: Debate, debateLine: DebateLine, newContent: String){
+        debateLine.isEdited = true
+        debateLine.content = newContent
+        database.getReference("/debates/${debate.id}/lines/${debateLine.id}")
+                .setValue(debateLine)
+    }
+
     fun getLinesForDebate(debate: Debate, adapter: RecyclerView.Adapter<*>): MutableList<DebateLine>{
 
         val lines = mutableListOf<DebateLine>()
@@ -303,7 +310,10 @@ object DebateBase {
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
-
+                val debateLine = dataSnapshot.getValue(DebateLine::class.java)!!
+                val index = lines.indexOf(debateLine)
+                lines[index] = debateLine
+                adapter.notifyItemChanged(index)
             }
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {

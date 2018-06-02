@@ -1,5 +1,6 @@
 package com.danderson.provemewrong.activities
 
+import android.media.Image
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.DebateLineAdapter
@@ -29,6 +31,8 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
 
     private var user: User? = null
     private var debate: Debate? = null
+    private var message: EditText? = null
+    private var send: ImageButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,27 +62,21 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
         recycler.adapter = adapter
         recycler.itemAnimator = Animations.getDebateLineAnimator()
 
-        val send = findViewById<ImageButton>(R.id.send_message)
-        val message = findViewById<EditText>(R.id.message_text)
+        send = findViewById(R.id.send_message)
+        message = findViewById(R.id.message_text)
 
-        send.setOnClickListener {
-            val debateLine = DebateLine(
-                    "", user!!, message.text.toString(), DebateBase.formatter.format(Date())
-            )
-            DebateBase.addDebateLine(debate!!, debateLine)
-            message.text.clear()
-        }
-        send.isEnabled = false
-        send.visibility = View.INVISIBLE
+        send!!.setOnClickListener(NewDebateLineOnClickListener())
+        send!!.isEnabled = false
+        send!!.visibility = View.INVISIBLE
 
-        message.addTextChangedListener(object: TextWatcher{
+        message!!.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                send.isEnabled = !s.toString().trim().isEmpty()
-                send.visibility = if(!s.toString().trim().isEmpty()) View.VISIBLE else View.INVISIBLE
+                send!!.isEnabled = !s.toString().trim().isEmpty()
+                send!!.visibility = if(!s.toString().trim().isEmpty()) View.VISIBLE else View.INVISIBLE
             }
         })
 
@@ -92,7 +90,9 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
     }
 
     override fun onEditMessage(line: DebateLine) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        message!!.setText(line.content, TextView.BufferType.EDITABLE)
+        message!!.setSelection(message!!.text.length)
+        send!!.setOnClickListener(EditDebateLineOnClickListener(line))
     }
 
     override fun onRemoveMessage(line: DebateLine) {
@@ -101,5 +101,26 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
 
     override fun onViewProfile(line: DebateLine) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    inner class NewDebateLineOnClickListener: View.OnClickListener{
+        override fun onClick(v: View) {
+            val debateLine = DebateLine(
+                    "", user!!, message!!.text.toString(), DebateBase.formatter.format(Date())
+            )
+            DebateBase.addDebateLine(debate!!, debateLine)
+            message!!.text.clear()
+        }
+    }
+
+    /**
+     * Single click event for editing an existing debate line
+     */
+    inner class EditDebateLineOnClickListener(private val line: DebateLine): View.OnClickListener{
+        override fun onClick(v: View) {
+            DebateBase.editDebateLine(debate!!, line, message!!.text.toString())
+            message!!.text.clear()
+            send!!.setOnClickListener(NewDebateLineOnClickListener())
+        }
     }
 }
