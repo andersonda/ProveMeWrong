@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.adapters.DebateLineAdapter
 import com.danderson.provemewrong.fragments.BottomSheetDebateDialog
+import com.danderson.provemewrong.fragments.ViewProfileDialog
 import com.danderson.provemewrong.model.Debate
 import com.danderson.provemewrong.model.DebateBase
 import com.danderson.provemewrong.model.DebateLine
@@ -100,7 +101,8 @@ class DebateActivity: AppCompatActivity(), BottomSheetDebateDialog.BottomSheetMe
     }
 
     override fun onViewProfile(line: DebateLine) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val dialog: ViewProfileDialog = ViewProfileDialog.newInstance(user!!, line.user)
+        dialog.show(supportFragmentManager, dialog.tag)
     }
 
     inner class NewDebateLineOnClickListener: View.OnClickListener{

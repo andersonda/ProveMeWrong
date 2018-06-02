@@ -12,7 +12,7 @@ import android.widget.TimePicker
 import android.text.format.DateFormat
 import java.util.*
 
-class DebateDatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener,
+class DebateDatePickerDialog: DialogFragment(), DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
     private var datePicker: DatePickerDialog? = null

@@ -90,10 +90,10 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
     }
 
     override fun onDebateInformationSubmitted(topic: String, category: String, isVote: Boolean, isTurnBased: Boolean, date: String?) {
-        if(isVote){
-            debate = Debate(topic, category, isTurnBased)
+        debate = if(isVote){
+            Debate(topic, category, isTurnBased)
         } else{
-            debate = TimedDebate(topic, category, isTurnBased, date!!)
+            TimedDebate(topic, category, isTurnBased, date!!)
         }
     }
 

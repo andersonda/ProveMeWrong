@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.danderson.provemewrong.R
 import com.danderson.provemewrong.model.DebateLine
-import com.danderson.provemewrong.model.User
 import com.google.firebase.auth.FirebaseAuth
 
 class BottomSheetDebateDialog: BottomSheetDialogFragment(){

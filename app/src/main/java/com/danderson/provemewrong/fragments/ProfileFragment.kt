@@ -44,14 +44,14 @@ class ProfileFragment : Fragment() {
         name.text = user.displayName
         val default = TextDrawable.builder()
                 .beginConfig()
-                    .width(512)
-                    .height(512)
+                    .width(256)
+                    .height(256)
                 .endConfig()
                 .buildRound("${user.displayName[0]}", ColorGenerator.MATERIAL.getColor(user.hashCode()))
 
         Picasso.get()
                 .load(user.imageURL)
-                .resize(512, 512)
+                .resize(256, 256)
                 .placeholder(default)
                 .into(photo, object: Callback{
                     override fun onSuccess() {

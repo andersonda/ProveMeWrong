@@ -38,7 +38,7 @@ class CreateDebateFragment : Fragment(){
         val turns: RadioGroup = v.findViewById(R.id.turn_radio_group)
         val endButton: Button = v.findViewById(R.id.set_end_time)
         endButton.setOnClickListener{
-            val dialog = DebateDatePickerFragment()
+            val dialog = DebateDatePickerDialog()
             dialog.setTargetFragment(this, DIALOG)
             dialog.show(activity?.supportFragmentManager, "debateDatePicker")
         }
