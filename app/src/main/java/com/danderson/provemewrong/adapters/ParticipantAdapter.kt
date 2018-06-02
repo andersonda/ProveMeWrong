@@ -16,7 +16,7 @@ class ParticipantAdapter(val creatorId: String): UserAdapter<User>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_participant, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_participant, parent, false)
         return ViewHolder(v)
     }
 

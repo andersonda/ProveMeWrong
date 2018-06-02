@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/entry_user"
+    <include layout="@layout/item_user"
              app:layout_constraintLeft_toLeftOf="parent"
              app:layout_constraintTop_toTopOf="parent"
              app:layout_constraintBottom_toBottomOf="parent"/>

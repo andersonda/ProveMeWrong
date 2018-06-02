@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.graphics.drawable.BitmapDrawable
-import android.util.Log
 
 
 open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
@@ -30,7 +29,7 @@ open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_user, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
         return ViewHolder(v)
     }
 

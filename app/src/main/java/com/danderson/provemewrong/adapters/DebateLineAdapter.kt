@@ -32,8 +32,8 @@ class DebateLineAdapter(val context: Context): RecyclerView.Adapter<DebateLineAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = when(viewType){
-            0 -> LayoutInflater.from(parent.context).inflate(R.layout.entry_incoming_debate_line, parent, false)
-            else -> LayoutInflater.from(parent.context).inflate(R.layout.entry_outgoing_debate_line, parent, false)
+            0 -> LayoutInflater.from(parent.context).inflate(R.layout.item_incoming_debate_line, parent, false)
+            else -> LayoutInflater.from(parent.context).inflate(R.layout.item_outgoing_debate_line, parent, false)
         }
         return ViewHolder(v)
     }

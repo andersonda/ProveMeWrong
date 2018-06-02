@@ -1,6 +1,5 @@
 package com.danderson.provemewrong.adapters
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,7 @@ open class ContactAdapter(val pending: Boolean): UserAdapter<Contact>(){
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.entry_contact, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_contact, parent, false)
         return ViewHolder(v)
     }
 
