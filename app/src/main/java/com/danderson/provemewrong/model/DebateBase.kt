@@ -3,6 +3,7 @@ package com.danderson.provemewrong.model
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.danderson.provemewrong.adapters.ContactAdapter
+import com.danderson.provemewrong.adapters.UserAdapter
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -232,9 +233,7 @@ object DebateBase {
                             Debate(topic, category, turnBased)
                         }
                         debate.id = key
-                        debate.moderator = if (dataSnapshot.child("moderator").exists())
-                            dataSnapshot.child("moderator").getValue(String::class.java)
-                        else null
+                        debate.moderator = dataSnapshot.child("moderator").getValue(String::class.java)!!
                         debates.add(debate)
                         adapter.notifyDataSetChanged()
                     }
@@ -249,7 +248,7 @@ object DebateBase {
         return debates
     }
 
-    fun getParticipantsForDebate(id: String, adapter:RecyclerView.Adapter<*>): MutableList<User>{
+    fun <P: User, T: UserAdapter<P>> getParticipantsForDebate(id: String, moderator: String, adapter: T): MutableList<User>{
         val participants = mutableListOf<User>()
         val debateReference = database.getReference("/debates/$id/participants")
         debateReference.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -266,7 +265,11 @@ object DebateBase {
                         }
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            insertSorted(participants, dataSnapshot.getValue(User::class.java)!!)
+                            val user = dataSnapshot.getValue(User::class.java)!!
+                            val index = insertSorted(participants, user)
+                            if(user.id == moderator){
+                                adapter.moderatorIndex = index
+                            }
                             adapter.notifyDataSetChanged()
                         }
                     })
@@ -360,13 +363,12 @@ object DebateBase {
         return categories
     }
 
-    private fun <T: Comparable<T>> insertSorted(items: MutableList<T>, item: T){
-        val index = items.binarySearch(item)
+    private fun <T: Comparable<T>> insertSorted(items: MutableList<T>, item: T): Int{
+        var index = items.binarySearch(item)
         if(index < 0){
-            items.add(-(index + 1), item)
+            index = -(index + 1)
         }
-        else{
-            items.add(index, item)
-        }
+        items.add(index, item)
+        return index
     }
 }

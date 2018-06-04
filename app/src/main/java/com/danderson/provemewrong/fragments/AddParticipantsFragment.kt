@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class AddParticipantsFragment : Fragment(){
     private var participantsCallback: AddParticipants? = null
 
     interface AddParticipants{
-        fun onParticipantsAdded(users: List<User>)
+        fun onParticipantsAdded(users: List<User>, moderatorIndex: Int)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +71,7 @@ class AddParticipantsFragment : Fragment(){
         val nextButton: Button = v.findViewById(R.id.button_next)
         nextButton.setOnClickListener{
             navigationCallback!!.onNextButtonPressed()
-            participantsCallback!!.onParticipantsAdded(participantAdapter.users)
+            participantsCallback!!.onParticipantsAdded(participantAdapter.users, participantAdapter.moderatorIndex!!)
         }
 
         return v
@@ -87,7 +88,7 @@ class AddParticipantsFragment : Fragment(){
         try {
             participantsCallback = context as AddParticipants
         } catch (e: ClassCastException){
-            throw ClassCastException(context?.toString()
+            throw ClassCastException(context.toString()
                     + "must implement AddParticipants interface")
         }
     }

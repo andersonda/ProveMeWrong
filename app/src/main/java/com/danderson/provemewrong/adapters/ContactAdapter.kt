@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 open class ContactAdapter(val pending: Boolean): UserAdapter<Contact>(){
 
+    override var moderatorIndex: Int? = -1
+
     open inner class ViewHolder(itemView: View): UserAdapter<Contact>.ViewHolder(itemView){
         var options: ImageButton = itemView.findViewById(R.id.contact_options)
     }

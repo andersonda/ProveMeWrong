@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
+import android.view.Gravity
+import android.widget.Toast
 import com.danderson.provemewrong.fragments.AddParticipantsFragment
 import com.danderson.provemewrong.fragments.CreateDebateFragment
 import com.danderson.provemewrong.Navigation
@@ -74,6 +76,9 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
         when(viewPager.currentItem){
             0 -> {
                 viewPager.currentItem = 1
+                val toast = Toast.makeText(this, getString(R.string.tip_set_moderator), Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.CENTER, 0, 0)
+                toast.show()
             }
             1 -> {
                 AlertDialog.Builder(this)
@@ -97,10 +102,11 @@ class CreateDebateActivity : AppCompatActivity(), Navigation, CreateDebateFragme
         }
     }
 
-    override fun onParticipantsAdded(users: List<User>) {
+    override fun onParticipantsAdded(users: List<User>, moderatorIndex: Int) {
         users.forEach{
             debate!!.participants.add(it.id)
         }
+        debate!!.moderator = users[moderatorIndex].id
     }
 
     inner class CreateDebatePagerAdapter(fm: FragmentManager, private var tabCount: Int): FragmentPagerAdapter(fm) {

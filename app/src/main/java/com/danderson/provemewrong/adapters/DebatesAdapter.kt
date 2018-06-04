@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.danderson.provemewrong.activities.DebateActivity
 import com.danderson.provemewrong.R
@@ -53,8 +54,9 @@ class DebatesAdapter(val context: Context): RecyclerView.Adapter<DebatesAdapter.
         holder.participants.layoutManager = GridLayoutManager(context, 4)
 
         val adapter = UserAdapter<User>()
-        adapter.users = DebateBase.getParticipantsForDebate(debate.id!!, adapter)
+        adapter.users = DebateBase.getParticipantsForDebate(debate.id!!, debate.moderator!!, adapter)
         holder.participants.adapter = adapter
+
 
         holder.itemView.setOnClickListener{
             val intent = Intent(context, DebateActivity::class.java)

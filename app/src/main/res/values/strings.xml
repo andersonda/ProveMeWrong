@@ -54,6 +54,7 @@
     <string name="remove_message">Remove Message</string>
     <string name="view_profile">View Profile</string>
     <string name="tip_message_actions">Tip: long press a debate message to access menu options</string>
+    <string name="tip_set_moderator">Tip: click on a participant to set him/her as the moderator</string>
     <string name="debate_line_edited">%1$s (edited)</string>
     <string name="liked_by">Liked by: %1$s</string>
 </resources>

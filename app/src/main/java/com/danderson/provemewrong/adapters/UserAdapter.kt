@@ -21,11 +21,13 @@ import android.graphics.drawable.BitmapDrawable
 open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>() {
 
     var users: MutableList<T> = mutableListOf()
+    open var moderatorIndex: Int? = null
 
     open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val picture: ImageView = itemView.findViewById(R.id.profile_picture)
         val name: TextView = itemView.findViewById(R.id.display_name)
         val layout: LinearLayout = itemView.findViewById(R.id.user_display)
+        val moderatorIcon: ImageView = itemView.findViewById(R.id.moderator_indicator)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,6 +62,13 @@ open class UserAdapter<T: User>: RecyclerView.Adapter<UserAdapter<T>.ViewHolder>
                         holder.picture.setImageDrawable(default)
                     }
                 })
+
+        if(moderatorIndex != null && position == moderatorIndex){
+            holder.moderatorIcon.visibility = View.VISIBLE
+        }
+        else{
+            holder.moderatorIcon.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
